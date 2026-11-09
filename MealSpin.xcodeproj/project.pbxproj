@@ -1,0 +1,331 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 56;
+	objects = {
+
+/* Begin PBXBuildFile section */
+		A8A0ADDF7E0B4B9288C7C1C0 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 3AA8CFCC168840DA88E480C8 /* Assets.xcassets */; };
+		0B8DD7B037074B149A3125AF /* Models.swift in Sources */ = {isa = PBXBuildFile; fileRef = A1529DCCC9C54BD69AB64E30 /* Models.swift */; };
+		4BE57AD2E01E4278B6FCD9C6 /* ListSharing.swift in Sources */ = {isa = PBXBuildFile; fileRef = F49AB9644DF6489A928C5B52 /* ListSharing.swift */; };
+		79CC513AA7F44C65A70905F8 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = CAA3AF0C79994CA6875DADF7 /* ContentView.swift */; };
+		7F03D719440B4FF78059230E /* MealSpinApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 43D4106E7E48493EA5544CFC /* MealSpinApp.swift */; };
+		80396246FAAA42C096232BC0 /* HistoryView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E0894E344DFF4DD98EB1A1C2 /* HistoryView.swift */; };
+		8F9FAFC4487A42F28BFE403E /* Tests/FlowTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 22A0F8374C1749FB9BA775A7 /* Tests/FlowTests.swift */; };
+		9098BDEB1E8045ECB8421ABF /* ListLibrary.swift in Sources */ = {isa = PBXBuildFile; fileRef = FD5D3A291A074870A05A3035 /* ListLibrary.swift */; };
+		9FE33120177F44118758F64A /* WheelView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 53EF709D1E874D00A6AF7F49 /* WheelView.swift */; };
+		F73D08FD871A4EE28B9DA2C8 /* ListEditor.swift in Sources */ = {isa = PBXBuildFile; fileRef = C6A06F3D1DD14A05B468B172 /* ListEditor.swift */; };
+/* End PBXBuildFile section */
+
+/* Begin PBXContainerItemProxy section */
+		13E61F22F8314667BB9F6965 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 7A97C6A6F50044029524940E /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 37EC4F12E7E4447F89CADB9F;
+			remoteInfo = MealSpin;
+		};
+/* End PBXContainerItemProxy section */
+
+/* Begin PBXFileReference section */
+		3AA8CFCC168840DA88E480C8 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
+		22A0F8374C1749FB9BA775A7 /* Tests/FlowTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Tests/FlowTests.swift; sourceTree = SOURCE_ROOT; };
+		3C8D899730A199F40097450D /* MealSpinUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = MealSpinUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		3EA3926F82DB4481AD74A4F6 /* MealSpin.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; path = MealSpin.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		43D4106E7E48493EA5544CFC /* MealSpinApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MealSpinApp.swift; sourceTree = "<group>"; };
+		53EF709D1E874D00A6AF7F49 /* WheelView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WheelView.swift; sourceTree = "<group>"; };
+		A1529DCCC9C54BD69AB64E30 /* Models.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Models.swift; sourceTree = "<group>"; };
+		C6A06F3D1DD14A05B468B172 /* ListEditor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ListEditor.swift; sourceTree = "<group>"; };
+		CAA3AF0C79994CA6875DADF7 /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
+		E0894E344DFF4DD98EB1A1C2 /* HistoryView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HistoryView.swift; sourceTree = "<group>"; };
+		F49AB9644DF6489A928C5B52 /* ListSharing.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ListSharing.swift; sourceTree = "<group>"; };
+		FD5D3A291A074870A05A3035 /* ListLibrary.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ListLibrary.swift; sourceTree = "<group>"; };
+/* End PBXFileReference section */
+
+/* Begin PBXFrameworksBuildPhase section */
+		66B8C07D122E448D8F70691F /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXFrameworksBuildPhase section */
+
+/* Begin PBXGroup section */
+		2BC93102DD5F4CEB9884A825 /* MealSpin */ = {
+			isa = PBXGroup;
+			children = (
+				3AA8CFCC168840DA88E480C8 /* Assets.xcassets */,
+				F49AB9644DF6489A928C5B52 /* ListSharing.swift */,
+				E0894E344DFF4DD98EB1A1C2 /* HistoryView.swift */,
+				C6A06F3D1DD14A05B468B172 /* ListEditor.swift */,
+				FD5D3A291A074870A05A3035 /* ListLibrary.swift */,
+				CAA3AF0C79994CA6875DADF7 /* ContentView.swift */,
+				43D4106E7E48493EA5544CFC /* MealSpinApp.swift */,
+				A1529DCCC9C54BD69AB64E30 /* Models.swift */,
+				53EF709D1E874D00A6AF7F49 /* WheelView.swift */,
+			);
+			path = MealSpin;
+			sourceTree = "<group>";
+		};
+		3C8D899630A199F40097450D /* Recovered References */ = {
+			isa = PBXGroup;
+			children = (
+				22A0F8374C1749FB9BA775A7 /* Tests/FlowTests.swift */,
+			);
+			name = "Recovered References";
+			sourceTree = "<group>";
+		};
+		684A9DD0D80C48E597EB5545 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				3EA3926F82DB4481AD74A4F6 /* MealSpin.app */,
+				3C8D899730A199F40097450D /* MealSpinUITests.xctest */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		6D606E0AD84D4772ABB3A44D = {
+			isa = PBXGroup;
+			children = (
+				2BC93102DD5F4CEB9884A825 /* MealSpin */,
+				684A9DD0D80C48E597EB5545 /* Products */,
+				3C8D899630A199F40097450D /* Recovered References */,
+			);
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXNativeTarget section */
+		23CF021C4EB444198BA3EF5B /* MealSpinUITests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = A1B342F88BDF40B9B31177D6 /* Build configuration list for PBXNativeTarget "MealSpinUITests" */;
+			buildPhases = (
+				F64E9440BA4D472898E6F524 /* Sources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				39CD09C87AD14710AF826FAA /* PBXTargetDependency */,
+			);
+			name = MealSpinUITests;
+			productName = MealSpinUITests;
+			productReference = 3C8D899730A199F40097450D /* MealSpinUITests.xctest */;
+			productType = "com.apple.product-type.bundle.ui-testing";
+		};
+		37EC4F12E7E4447F89CADB9F /* MealSpin */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 7657DE4DF78E420A91BD3928 /* Build configuration list for PBXNativeTarget "MealSpin" */;
+			buildPhases = (
+				2135E54158E141B2A3FA800D /* Sources */,
+				66B8C07D122E448D8F70691F /* Frameworks */,
+				EF5345234FD448DD8A6CA9EC /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = MealSpin;
+			productName = MealSpin;
+			productReference = 3EA3926F82DB4481AD74A4F6 /* MealSpin.app */;
+			productType = "com.apple.product-type.application";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		7A97C6A6F50044029524940E /* Project object */ = {
+			isa = PBXProject;
+			attributes = {
+				LastUpgradeCheck = 2600;
+			};
+			buildConfigurationList = 1725547212194E368A977E67 /* Build configuration list for PBXProject "MealSpin" */;
+			compatibilityVersion = "Xcode 14.0";
+			developmentRegion = "zh-Hant";
+			hasScannedForEncodings = 0;
+			knownRegions = (
+				"zh-Hant",
+				en,
+				Base,
+			);
+			mainGroup = 6D606E0AD84D4772ABB3A44D;
+			productRefGroup = 684A9DD0D80C48E597EB5545 /* Products */;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (
+				37EC4F12E7E4447F89CADB9F /* MealSpin */,
+				23CF021C4EB444198BA3EF5B /* MealSpinUITests */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXResourcesBuildPhase section */
+		EF5345234FD448DD8A6CA9EC /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				A8A0ADDF7E0B4B9288C7C1C0 /* Assets.xcassets in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXResourcesBuildPhase section */
+
+/* Begin PBXSourcesBuildPhase section */
+		2135E54158E141B2A3FA800D /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				4BE57AD2E01E4278B6FCD9C6 /* ListSharing.swift in Sources */,
+				80396246FAAA42C096232BC0 /* HistoryView.swift in Sources */,
+				F73D08FD871A4EE28B9DA2C8 /* ListEditor.swift in Sources */,
+				9098BDEB1E8045ECB8421ABF /* ListLibrary.swift in Sources */,
+				79CC513AA7F44C65A70905F8 /* ContentView.swift in Sources */,
+				7F03D719440B4FF78059230E /* MealSpinApp.swift in Sources */,
+				0B8DD7B037074B149A3125AF /* Models.swift in Sources */,
+				9FE33120177F44118758F64A /* WheelView.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		F64E9440BA4D472898E6F524 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				8F9FAFC4487A42F28BFE403E /* Tests/FlowTests.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin PBXTargetDependency section */
+		39CD09C87AD14710AF826FAA /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 37EC4F12E7E4447F89CADB9F /* MealSpin */;
+			targetProxy = 13E61F22F8314667BB9F6965 /* PBXContainerItemProxy */;
+		};
+/* End PBXTargetDependency section */
+
+/* Begin XCBuildConfiguration section */
+		4A3F0DB478B647E1A622C281 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = MealSpin/Info.plist;
+				INFOPLIST_KEY_CFBundleDisplayName = "今天吃什麼";
+				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
+				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
+				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = com.personal.MealSpin;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Release;
+		};
+		5500E1EFE94443F1A109CE8E /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CLANG_ENABLE_MODULES = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 17.0;
+				SDKROOT = iphoneos;
+				SWIFT_VERSION = 5.0;
+			};
+			name = Release;
+		};
+		57FF3AA798774A64A042179C /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CLANG_ENABLE_MODULES = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 17.0;
+				SDKROOT = iphoneos;
+				SWIFT_VERSION = 5.0;
+			};
+			name = Debug;
+		};
+		58945A81DC2D41E0B6EAB63E /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				GENERATE_INFOPLIST_FILE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 17.0;
+				PRODUCT_BUNDLE_IDENTIFIER = com.personal.MealSpinUITests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = iphoneos;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				TEST_TARGET_NAME = MealSpin;
+			};
+			name = Release;
+		};
+		6CEB49B699D44A11BB36DA05 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = MealSpin/Info.plist;
+				INFOPLIST_KEY_CFBundleDisplayName = "今天吃什麼";
+				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
+				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
+				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = com.personal.MealSpin;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Debug;
+		};
+		9B67BC8E697549D6866C7FF6 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				GENERATE_INFOPLIST_FILE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 17.0;
+				PRODUCT_BUNDLE_IDENTIFIER = com.personal.MealSpinUITests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = iphoneos;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				TEST_TARGET_NAME = MealSpin;
+			};
+			name = Debug;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		1725547212194E368A977E67 /* Build configuration list for PBXProject "MealSpin" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				57FF3AA798774A64A042179C /* Debug */,
+				5500E1EFE94443F1A109CE8E /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		7657DE4DF78E420A91BD3928 /* Build configuration list for PBXNativeTarget "MealSpin" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				6CEB49B699D44A11BB36DA05 /* Debug */,
+				4A3F0DB478B647E1A622C281 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		A1B342F88BDF40B9B31177D6 /* Build configuration list for PBXNativeTarget "MealSpinUITests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				9B67BC8E697549D6866C7FF6 /* Debug */,
+				58945A81DC2D41E0B6EAB63E /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+/* End XCConfigurationList section */
+	};
+	rootObject = 7A97C6A6F50044029524940E /* Project object */;
+}
