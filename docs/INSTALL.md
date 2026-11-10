@@ -2,7 +2,7 @@
 
 這份教學適合第一次用 Xcode 安裝 App 的人，不需要修改 App 程式碼。你會在 Mac 上下載 MealSpin，再由 Xcode 將它安裝到自己的手機。
 
-[回到 MealSpin 介紹](../README.md)
+[回到 MealSpin 介紹](../README.md) · [專案總覽](overview.md) · [開發說明](DEVELOPMENT.md)
 
 ## 開始前，先確認這幾件事
 
