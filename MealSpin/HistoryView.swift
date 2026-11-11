@@ -19,7 +19,7 @@ struct HistoryView: View {
                                         Image(systemName: "fork.knife").font(.body).foregroundStyle(Theme.green)
                                             .frame(width: 42, height: 42).background(Theme.greenWash, in: RoundedRectangle(cornerRadius: 13))
                                         VStack(alignment: .leading, spacing: 6) {
-                                            Text(entry.food).font(.headline).foregroundStyle(Theme.ink)
+                                            Text(entry.food).accessibilityIdentifier("historyFood").font(.headline).foregroundStyle(Theme.ink)
                                             Text(entry.listName).font(.caption).foregroundStyle(Theme.muted)
                                         }
                                         Spacer(minLength: 4)

@@ -4,50 +4,71 @@ import UIKit
 struct WheelScreen: View {
     let list: FoodList
     let store: MealStore
+    var scrollsInternally = true
     @Binding var spinning: Bool
     var edit: () -> Void
     var share: () -> Void
     @State private var rotation = 0.0
     @State private var result: String?
-    @State private var active = true
+    @State private var activeSpin: UUID?
     @State private var showingOptions = false
-    @Environment(\.accessibilityReduceMotion) private var reduceMotion
+    @Environment(\.accessibilityReduceMotion) private var systemReduceMotion
     @Environment(\.dynamicTypeSize) private var typeSize
 
+    private var reduceMotion: Bool { systemReduceMotion || (ProcessInfo.processInfo.arguments.contains("--ui-testing") && ProcessInfo.processInfo.arguments.contains("--reduce-motion")) }
     private var participating: [String] { store.participatingItems(in: list) }
     private var pausedCount: Int { list.items.count - participating.count }
 
     var body: some View {
-        GeometryReader { geometry in
-            ScrollView {
-                VStack(spacing: 20) {
-                    if list.items.isEmpty {
-                        ContentUnavailableView("轉盤還空著呢", systemImage: "carrot", description: Text("先放進幾個想吃的，\n下一餐就不用再煩惱。"))
-                    } else if participating.isEmpty {
-                        ContentUnavailableView("沒有參與抽選的項目", systemImage: "checklist", description: Text("項目都還在清單裡。\n重新勾選幾個，就能繼續轉動。"))
-                        optionControls
-                    } else {
-                        wheel(diameter: wheelSize(geometry))
-                            .frame(width: wheelSize(geometry), height: wheelSize(geometry))
-                            .padding(.top, 12)
-                        resultCard
-                        optionControls
-                    }
+        Group {
+            if scrollsInternally {
+                GeometryReader { geometry in
+                    ScrollView {
+                        wheelContent(diameter: wheelSize(geometry))
+                            .frame(minHeight: geometry.size.height, alignment: .center)
+                    }.scrollIndicators(.automatic)
                 }
-                .padding(.horizontal, 24).padding(.vertical, 12)
-                .frame(maxWidth: 580).frame(maxWidth: .infinity)
-                .frame(minHeight: geometry.size.height, alignment: .center)
-            }.scrollIndicators(.automatic).clipped()
+                .safeAreaInset(edge: .bottom, spacing: 0) { actionBar }
+            } else {
+                VStack(spacing: 0) {
+                    wheelContent(diameter: 260)
+                    actionBar
+                }
+            }
         }
-        .safeAreaInset(edge: .bottom, spacing: 0) { actionBar }
         .sheet(isPresented: $showingOptions) { optionsSheet }
         .onChange(of: participating) { _, _ in
-            // A different set creates different segments. Clear the old result and alignment.
+            activeSpin = nil
+            spinning = false
             rotation = 0
             result = nil
         }
-        .onDisappear { active = false; spinning = false }
-        .onAppear { active = true }
+        .onDisappear { activeSpin = nil; spinning = false }
+        .transaction { transaction in
+            if reduceMotion {
+                transaction.animation = nil
+                transaction.disablesAnimations = true
+            }
+        }
+    }
+
+    private func wheelContent(diameter: CGFloat) -> some View {
+        VStack(spacing: 20) {
+            if list.items.isEmpty {
+                ContentUnavailableView("轉盤還空著呢", systemImage: "carrot", description: Text("先放進幾個想吃的，\n下一餐就不用再煩惱。"))
+            } else if participating.isEmpty {
+                ContentUnavailableView("沒有參與抽選的項目", systemImage: "checklist", description: Text("項目都還在清單裡。\n重新勾選幾個，就能繼續轉動。"))
+                optionControls
+            } else {
+                wheel(diameter: diameter)
+                    .frame(width: diameter, height: diameter)
+                    .padding(.top, 12)
+                resultCard
+                optionControls
+            }
+        }
+        .padding(.horizontal, 24).padding(.vertical, 12)
+        .frame(maxWidth: 580).frame(maxWidth: .infinity)
     }
 
     private func wheelSize(_ geometry: GeometryProxy) -> CGFloat {
@@ -102,14 +123,15 @@ struct WheelScreen: View {
     }
 
     private var optionControls: some View {
-        HStack(spacing: 8) {
+        let layout = typeSize.isAccessibilitySize ? AnyLayout(VStackLayout(alignment: .leading, spacing: 12)) : AnyLayout(HStackLayout(spacing: 8))
+        return layout {
             Button { showingOptions = true } label: {
                 HStack(spacing: 6) {
                     Image(systemName: "list.bullet")
                     Text(pausedCount == 0 ? "\(list.items.count) 個選項" : "\(participating.count)/\(list.items.count) 項參與")
                 }.font(.subheadline).foregroundStyle(Theme.muted).frame(minHeight: 44)
             }.accessibilityLabel("選擇本次參與項目，目前\(participating.count)個參與，\(pausedCount)個暫停").accessibilityIdentifier("participationOptions").disabled(spinning)
-            Spacer()
+            if !typeSize.isAccessibilitySize { Spacer() }
             Button("分享", systemImage: "square.and.arrow.up", action: share)
                 .font(.subheadline.weight(.medium)).foregroundStyle(Theme.orange).frame(minHeight: 44)
                 .padding(.horizontal, 8).disabled(spinning).accessibilityLabel("分享清單")
@@ -132,7 +154,7 @@ struct WheelScreen: View {
             Text(list.items.isEmpty ? "從餐廳、料理到小吃，都可以加入" : pausedCount > 0 ? "本次 \(participating.count) 項參與 · \(pausedCount) 項暫停，未刪除" : "每個選項機率相同 · 只儲存在你的手機")
                 .accessibilityIdentifier("participationStatus")
                 .font(.caption2).foregroundStyle(Theme.muted).multilineTextAlignment(.center)
-                .fixedSize(horizontal: false, vertical: true).dynamicTypeSize(...DynamicTypeSize.xxxLarge)
+                .fixedSize(horizontal: false, vertical: true)
         }
         .padding(.horizontal, 24).padding(.top, 16).padding(.bottom, 8)
         .frame(maxWidth: 580).frame(maxWidth: .infinity)
@@ -192,21 +214,36 @@ struct WheelScreen: View {
         let candidates = participating
         guard !spinning, !candidates.isEmpty else { return }
         let index = Int.random(in: candidates.indices)
+        let request = UUID()
+        activeSpin = request
         spinning = true
         result = nil
         UIImpactFeedbackGenerator(style: .light).impactOccurred()
-        let target = WheelMath.targetRotation(current: rotation, index: index, count: candidates.count, turns: Int.random(in: 5...7))
-        withAnimation(reduceMotion ? .linear(duration: 0.15) : .timingCurve(0.12, 0.75, 0.12, 1, duration: 3.4), completionCriteria: .removed) {
-            rotation = target
-        } completion: {
-            guard active else { return }
-            result = candidates[index]
-            spinning = false
-            store.record(food: candidates[index], list: list)
-            UINotificationFeedbackGenerator().notificationOccurred(.success)
-            UIAccessibility.post(notification: .announcement, argument: "今天吃\(candidates[index])")
+        let target = WheelMath.targetRotation(current: rotation, index: index, count: candidates.count, turns: reduceMotion ? 0 : Int.random(in: 5...7))
+        if reduceMotion {
+            var transaction = Transaction()
+            transaction.disablesAnimations = true
+            withTransaction(transaction) { rotation = target }
+            finishSpin(request, food: candidates[index])
+        } else {
+            withAnimation(.timingCurve(0.12, 0.75, 0.12, 1, duration: 3.4), completionCriteria: .removed) {
+                rotation = target
+            } completion: {
+                finishSpin(request, food: candidates[index])
+            }
         }
     }
+
+    private func finishSpin(_ request: UUID, food: String) {
+        guard activeSpin == request else { return }
+        activeSpin = nil
+        result = food
+        spinning = false
+        store.record(food: food, list: list)
+        UINotificationFeedbackGenerator().notificationOccurred(.success)
+        UIAccessibility.post(notification: .announcement, argument: String(localized: "今天吃\(food)"))
+    }
+
 }
 
 struct WheelDisc: View {

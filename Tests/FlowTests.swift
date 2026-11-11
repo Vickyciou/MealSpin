@@ -194,4 +194,101 @@ final class FlowTests: XCTestCase {
         XCTAssertTrue(app.buttons.matching(NSPredicate(format: "label CONTAINS %@", "匯出原始資料副本")).firstMatch.waitForExistence(timeout: 5))
         screenshot("Recovery-BackupsAfterRelaunch")
     }
+
+
+    @MainActor private func reveal(_ element: XCUIElement, in app: XCUIApplication, towardTop: Bool = false) {
+        for _ in 0..<12 {
+            if element.exists && element.isHittable {
+                let visible = app.windows.firstMatch.frame.insetBy(dx: 8, dy: 48)
+                if element.elementType != .button || visible.contains(element.frame) { return }
+            }
+            if towardTop { app.swipeDown() } else { app.swipeUp() }
+        }
+        XCTAssertTrue(element.isHittable)
+    }
+
+    @MainActor func testReduceMotionRecordsEachSpinOnce() {
+        let app = XCUIApplication()
+        app.launchArguments = ["--ui-testing", "--reset-test-data", "--reduce-motion"]
+        app.launch()
+        let spin = app.buttons["spinButton"]
+        XCTAssertTrue(spin.waitForExistence(timeout: 5))
+        spin.tap()
+        XCTAssertTrue(spin.isEnabled)
+        XCTAssertTrue(spin.label.contains("再轉一次"))
+        spin.tap()
+        XCTAssertTrue(spin.isEnabled)
+        app.buttons["抽選紀錄"].tap()
+        XCTAssertTrue(app.staticTexts["historyFood"].firstMatch.waitForExistence(timeout: 5))
+        XCTAssertEqual(app.staticTexts.matching(identifier: "historyFood").count, 2)
+        screenshot("ReduceMotion-TwoDecisions")
+    }
+
+    @MainActor func testMaximumTypeOperationsInPortraitAndLandscape() {
+        continueAfterFailure = false
+        let app = XCUIApplication()
+        app.launchArguments = ["--ui-testing", "--reset-test-data", "--maximum-type", "--reduce-motion"]
+        app.launch()
+        defer { XCUIDevice.shared.orientation = .portrait }
+        XCTAssertTrue(app.buttons["listSelector"].waitForExistence(timeout: 5))
+        app.buttons["listSelector"].tap()
+        let breakfast = app.buttons["list-早餐吃什麼"]
+        reveal(breakfast, in: app)
+        breakfast.tap()
+        expectation(for: NSPredicate(format: "label CONTAINS %@", "早餐吃什麼"), evaluatedWith: app.buttons["listSelector"])
+        waitForExpectations(timeout: 5)
+        let edit = app.buttons["編輯選項"]
+        reveal(edit, in: app)
+        edit.tap()
+        XCTAssertTrue(app.textFields["listNameField"].waitForExistence(timeout: 5))
+        XCTAssertGreaterThan(app.textFields["listNameField"].frame.height, 44)
+        screenshot("MaximumType-Editor")
+        app.buttons["取消"].tap()
+        expectation(for: NSPredicate(format: "exists == false"), evaluatedWith: app.textFields["listNameField"])
+        waitForExpectations(timeout: 5)
+        let spin = app.buttons["spinButton"]
+        reveal(spin, in: app)
+        screenshot("MaximumType-BeforeSpin")
+        spin.tap()
+        XCTAssertTrue(spin.isEnabled)
+        screenshot("MaximumType-Portrait")
+        let share = app.buttons["分享清單"]
+        reveal(share, in: app, towardTop: true)
+        share.tap()
+        XCTAssertTrue(app.buttons["shareListFile"].waitForExistence(timeout: 5))
+        screenshot("MaximumType-Sharing")
+        app.buttons["完成"].tap()
+        XCUIDevice.shared.orientation = .landscapeLeft
+        expectation(for: NSPredicate { _, _ in
+            app.windows.firstMatch.frame.width > app.windows.firstMatch.frame.height
+        }, evaluatedWith: app)
+        waitForExpectations(timeout: 5)
+        reveal(spin, in: app)
+        spin.tap()
+        XCTAssertTrue(spin.isEnabled)
+        screenshot("MaximumType-Landscape")
+    }
+
+    @MainActor func testMaximumTypeRecoveryRemainsReachable() {
+        let app = XCUIApplication()
+        app.launchArguments = ["--ui-testing", "--reset-test-data", "--corrupt-test-data", "--maximum-type"]
+        app.launch()
+        XCTAssertTrue(app.alerts.firstMatch.waitForExistence(timeout: 5))
+        app.alerts.buttons["知道了"].tap()
+        let backup = app.buttons["backupData"]
+        reveal(backup, in: app)
+        backup.tap()
+        let export = app.buttons["exportBackup"]
+        reveal(export, in: app)
+        XCTAssertTrue(export.isHittable)
+        let rebuild = app.buttons["rebuildData"]
+        reveal(rebuild, in: app)
+        rebuild.tap()
+        app.buttons["確認重建"].tap()
+        let spin = app.buttons["spinButton"]
+        XCTAssertTrue(spin.waitForExistence(timeout: 5))
+        reveal(spin, in: app)
+        screenshot("MaximumType-Recovered")
+    }
+
 }

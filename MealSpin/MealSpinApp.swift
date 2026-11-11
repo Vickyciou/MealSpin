@@ -18,10 +18,19 @@ import SwiftUI
             _store = State(initialValue: MealStore())
         }
     }
+    private var testMaximumType: Bool { ProcessInfo.processInfo.arguments.contains("--ui-testing") && ProcessInfo.processInfo.arguments.contains("--maximum-type") }
+
     var body: some Scene {
         WindowGroup {
             ContentView(store: store)
                 .tint(Theme.orange)
+                .onAppear {
+                    if testMaximumType {
+                        for scene in UIApplication.shared.connectedScenes.compactMap({ $0 as? UIWindowScene }) {
+                            scene.traitOverrides.preferredContentSizeCategory = .accessibilityExtraExtraExtraLarge
+                        }
+                    }
+                }
                 .alert("資料儲存提醒", isPresented: Binding(get: { store.errorMessage != nil }, set: { if !$0 { store.errorMessage = nil } })) {
                     Button("知道了") { store.errorMessage = nil }
                 } message: { Text(store.errorMessage ?? "") }
@@ -75,7 +84,6 @@ struct PrimaryButtonStyle: ButtonStyle {
     @Environment(\.isEnabled) private var enabled
     func makeBody(configuration: Configuration) -> some View {
         configuration.label.font(.system(.headline, design: .rounded))
-            .dynamicTypeSize(...DynamicTypeSize.xxxLarge)
             .padding(.horizontal, 16).padding(.vertical, 4)
             .foregroundStyle(.white).frame(maxWidth: .infinity, minHeight: 56)
             .background(Theme.action.opacity(enabled ? 1 : 0.65), in: RoundedRectangle(cornerRadius: 19))

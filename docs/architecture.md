@@ -59,7 +59,8 @@ flowchart TD
 1. `MealStore.participatingItems(in:)` 從完整清單扣除本次暫停項目。
 2. `WheelScreen.spin()` 對參與陣列的索引等機率抽選。
 3. `WheelMath.targetRotation` 依索引與目前角度計算停止位置，讓十二點鐘方向的指針對齊結果扇區。
-4. 動畫完成且畫面仍有效時，顯示結果、呼叫 `store.record`，並發出觸覺回饋與 VoiceOver 朗讀。
+4. Reduce Motion 開啟時，在停用動畫的 transaction 中直接設定停止角度；其餘情況等待多圈旋轉動畫完成。
+5. 兩個分支共用 `finishSpin`，核對並消耗抽選 UUID 後顯示結果、呼叫一次 `store.record`，並發出觸覺回饋與 VoiceOver 朗讀。畫面離開或候選項目變動時使 UUID 失效，舊動畫不能提交結果。
 
 空清單的主按鈕會開啟編輯；有選項但全部暫停時，主按鈕會開啟參與項目面板。抽選期間會停用清單切換、編輯、分享與參與設定。
 
@@ -112,6 +113,10 @@ flowchart TD
 `ListFileReader.read` 將父工作的取消傳給 detached worker，在協調、讀取及解碼前後檢查取消，並以 `defer` 成對釋放 security scope。同步 `NSFileCoordinator` 可能須等底層操作結束才返回，因此畫面入口的請求識別仍負責拒絕遲到結果。
 
 按「加入我的清單」且 store 儲存成功才完成匯入；取消不寫入。同名清單因 UUID 不同而新增為獨立副本。`ListFileExporter` 將分享檔案寫入暫存目錄，再交給 `UIActivityViewController`；文字分享只包含清單名稱與選項。
+
+## 自適應版面與本地化
+
+首頁在輔助使用字級或可用高度低於 500 點時，將標頭、選擇器、轉盤與主操作放入同一個捲動範圍；輔助使用字級下，標頭和轉盤輔助操作改為垂直排列。一般高度維持底部主按鈕，移除 `.xxxLarge` 字級上限。轉盤扇區文字仍為視覺摘要，完整項目名稱由參與面板提供。
 
 ## 實作與驗證依據
 

@@ -83,12 +83,17 @@ xcodebuild -project MealSpin.xcodeproj -scheme MealSpin \
 | `testSharingPresentsSystemSheet` | 檔案分享與系統面板的儲存／拷貝動作 |
 | `testTemporaryParticipation` | 暫停、過濾後抽選、切換清單保留、全部暫停、恢復與重新啟動 |
 | `testRecoveryRebuildRetainsExportAfterRelaunch` | 損壞資料、備份、放棄重建、確認重建及重開後副本匯出入口 |
+| `testReduceMotionRecordsEachSpinOnce` | 無動畫分支連續抽選兩次，紀錄只有兩筆 |
+| `testMaximumTypeOperationsInPortraitAndLandscape` | 最大字級選取、編輯入口、抽選、分享及橫向操作 |
+| `testMaximumTypeRecoveryRemainsReachable` | 最大字級備份、匯出入口及重建後主操作 |
 
 `--ui-testing` 使用獨立的 `Documents/ui-tests.json` 與 `Documents/UITest Recovery` 副本目錄。`--reset-test-data` 刪除這兩處測試資料並清除 `selectedFoodList` 偏好，不刪除正式資料或正式回復副本。正式資料契約見 [架構文件](architecture.md#狀態與儲存)。
 
 以下附加參數只在 `--ui-testing` 下生效：
 
 - `--corrupt-test-data` 在測試檔案寫入無效資料，進入回復流程。
+- `--maximum-type` 透過 iOS 17 的 `UIWindowScene.traitOverrides` 將整個視窗設為最大輔助使用字級，涵蓋 SwiftUI 與呈現的 sheet。
+- `--reduce-motion` 讓轉盤採用相同的無動畫完成分支。這能驗證分支與紀錄次數，不能代替從系統設定切換 Reduce Motion 的操作驗收。
 
 外部檔案測試會將後續啟動參數改為只含 `--ui-testing`，避免開啟文件時再次清除已建立的測試資料。
 

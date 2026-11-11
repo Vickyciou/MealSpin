@@ -26,23 +26,12 @@ struct ContentView: View {
 
     var body: some View {
         NavigationStack {
-            VStack(spacing: 0) {
-                header.dynamicTypeSize(...DynamicTypeSize.xxxLarge).padding(.horizontal, 24).padding(.top, 8).padding(.bottom, 20)
-                if store.needsRecovery {
-                    RecoveryView(store: store)
-                } else if let selected {
-                    selector(selected).dynamicTypeSize(...DynamicTypeSize.xxxLarge).padding(.horizontal, 24).padding(.bottom, 8)
-                    WheelScreen(list: selected, store: store, spinning: $spinning, edit: { sheet = .editor(selected) }, share: { sheet = .share(selected) })
-                        .id(selected)
+            GeometryReader { geometry in
+                let fullScroll = typeSize.isAccessibilitySize || geometry.size.height < 500
+                if fullScroll {
+                    ScrollView { homeContent(fullScroll: true) }
                 } else {
-                    ContentUnavailableView {
-                        Label("下一餐，從這裡開始", systemImage: "fork.knife.circle")
-                    } description: {
-                        Text("把愛吃的餐廳和食物放進清單，\n猶豫的時候，讓轉盤幫你選。")
-                    } actions: {
-                        Button("建立第一份清單", systemImage: "plus") { newList() }.buttonStyle(PrimaryButtonStyle())
-                        Button("匯入已有清單", systemImage: "square.and.arrow.down") { sheet = .lists }.buttonStyle(.bordered)
-                    }.padding(24)
+                    homeContent(fullScroll: false)
                 }
             }
             .frame(maxWidth: .infinity, maxHeight: .infinity)
@@ -78,8 +67,32 @@ struct ContentView: View {
         }
     }
 
+    private func homeContent(fullScroll: Bool) -> some View {
+        VStack(spacing: 0) {
+            header.padding(.horizontal, 24).padding(.top, 8).padding(.bottom, 20)
+            if store.needsRecovery {
+                RecoveryView(store: store, scrollsInternally: !fullScroll)
+            } else if let selected {
+                selector(selected).padding(.horizontal, 24).padding(.bottom, 8)
+                WheelScreen(list: selected, store: store, scrollsInternally: !fullScroll, spinning: $spinning, edit: { sheet = .editor(selected) }, share: { sheet = .share(selected) })
+                    .id(selected)
+            } else {
+                ContentUnavailableView {
+                    Label("下一餐，從這裡開始", systemImage: "fork.knife.circle")
+                } description: {
+                    Text("把愛吃的餐廳和食物放進清單，\n猶豫的時候，讓轉盤幫你選。")
+                } actions: {
+                    Button("建立第一份清單", systemImage: "plus") { newList() }.buttonStyle(PrimaryButtonStyle())
+                    Button("匯入已有清單", systemImage: "square.and.arrow.down") { sheet = .lists }.buttonStyle(.bordered)
+                }.padding(24)
+            }
+        }
+    }
+
+
     private var header: some View {
-        HStack(spacing: 12) {
+        let layout = typeSize.isAccessibilitySize ? AnyLayout(VStackLayout(alignment: .leading, spacing: 12)) : AnyLayout(HStackLayout(spacing: 12))
+        return layout {
             VStack(alignment: .leading, spacing: 5) {
                 Text("今天吃什麼").font(.system(.title2, design: .rounded, weight: .bold)).foregroundStyle(Theme.ink)
                 if !typeSize.isAccessibilitySize {
@@ -87,15 +100,17 @@ struct ContentView: View {
                         .font(.caption).foregroundStyle(Theme.muted)
                 }
             }
-            Spacer(minLength: 0)
-            if !store.backups.isEmpty {
-                Button("原始資料副本", systemImage: "externaldrive") { sheet = .backups }
-                    .buttonStyle(RoundButtonStyle()).disabled(spinning).accessibilityIdentifier("recoveryBackups")
+            if !typeSize.isAccessibilitySize { Spacer(minLength: 0) }
+            HStack(spacing: 12) {
+                if !store.backups.isEmpty {
+                    Button("原始資料副本", systemImage: "externaldrive") { sheet = .backups }
+                        .buttonStyle(RoundButtonStyle()).disabled(spinning).accessibilityIdentifier("recoveryBackups")
+                }
+                Button("抽選紀錄", systemImage: "clock.arrow.circlepath") { sheet = .history }
+                    .buttonStyle(RoundButtonStyle()).disabled(spinning).accessibilityLabel("抽選紀錄")
+                Button("新增清單", systemImage: "plus") { newList() }
+                    .buttonStyle(RoundButtonStyle()).disabled(spinning).accessibilityLabel("新增清單")
             }
-            Button("抽選紀錄", systemImage: "clock.arrow.circlepath") { sheet = .history }
-                .buttonStyle(RoundButtonStyle()).disabled(spinning).accessibilityLabel("抽選紀錄")
-            Button("新增清單", systemImage: "plus") { newList() }
-                .buttonStyle(RoundButtonStyle()).disabled(spinning).accessibilityLabel("新增清單")
         }
     }
 
