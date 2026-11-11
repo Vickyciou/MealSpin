@@ -2,6 +2,8 @@
 
 本文件提供開發環境、建置、測試與畫面素材的操作方式。產品範圍、狀態及檔案契約分別見對應文件。
 
+尚未實作的審查改善項目與驗收順序見 [iOS 程式碼審查改善計畫](ios-improvement-plan.md)。
+
 [專案總覽](overview.md) · [架構](architecture.md) · [模組責任](modules.md) · [手機安裝](INSTALL.md)
 
 ## 開發環境與啟動
