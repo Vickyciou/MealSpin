@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+        B00000000000000000000005 /* ListImportCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = B00000000000000000000006; };
         B00000000000000000000001 /* RecoveryView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B00000000000000000000002; };
         B00000000000000000000003 /* Localizable.xcstrings in Resources */ = {isa = PBXBuildFile; fileRef = B00000000000000000000004; };
 		A8A0ADDF7E0B4B9288C7C1C0 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 3AA8CFCC168840DA88E480C8 /* Assets.xcassets */; };
@@ -32,6 +33,7 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+        B00000000000000000000006 /* ListImportCoordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ListImportCoordinator.swift; sourceTree = "<group>"; };
         B00000000000000000000002 /* RecoveryView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RecoveryView.swift; sourceTree = "<group>"; };
         B00000000000000000000004 /* Localizable.xcstrings */ = {isa = PBXFileReference; lastKnownFileType = text.json.xcstrings; path = Localizable.xcstrings; sourceTree = "<group>"; };
 		3AA8CFCC168840DA88E480C8 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
@@ -62,6 +64,7 @@
 		2BC93102DD5F4CEB9884A825 /* MealSpin */ = {
 			isa = PBXGroup;
 			children = (
+				B00000000000000000000006 /* ListImportCoordinator.swift */,
                 B00000000000000000000002 /* RecoveryView.swift */,
                 B00000000000000000000004 /* Localizable.xcstrings */,
                 3AA8CFCC168840DA88E480C8 /* Assets.xcassets */,
@@ -184,6 +187,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				B00000000000000000000005 /* ListImportCoordinator.swift in Sources */,
                 B00000000000000000000001 /* RecoveryView.swift in Sources */,
                 4BE57AD2E01E4278B6FCD9C6 /* ListSharing.swift in Sources */,
 				80396246FAAA42C096232BC0 /* HistoryView.swift in Sources */,

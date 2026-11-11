@@ -19,6 +19,7 @@ struct ListLibrary: View {
     @State private var sheet: LibrarySheet?
     @State private var importing = false
     @State private var importError: String?
+    @State private var importJob = ListImportCoordinator(reader: ListFileReader.read)
     @State private var deleting: FoodList?
     @State private var search = ""
     @Environment(\.dismiss) private var dismiss
@@ -84,31 +85,45 @@ struct ListLibrary: View {
                 Button("新增清單", systemImage: "plus") { sheet = .editor(FoodList(name: "", items: [])) }
                     .buttonStyle(PrimaryButtonStyle()).padding(20).background(Theme.cream)
             }
-            .sheet(item: $sheet) { destination in
+            .sheet(item: $sheet, onDismiss: presentPendingImport) { destination in
+                Group {
                 switch destination {
                 case .editor(let list): ListEditor(store: store, list: list, onSaved: onSelect)
                 case .share(let list): ListShareView(list: list)
                 case .importList(let list): ListImportView(list: list, store: store, onImported: onSelect)
                 }
+                }.safeAreaInset(edge: .top) { ImportStatusView(coordinator: importJob) }
             }
             .fileImporter(isPresented: $importing, allowedContentTypes: [.mealSpinList], allowsMultipleSelection: false) { result in
                 switch result {
                 case .success(let urls):
                     guard let url = urls.first else { return }
-                    Task {
-                        do { sheet = .importList(try await ListFileReader.read(url)) }
-                        catch { importError = error.localizedDescription }
-                    }
+                    importJob.start(url)
                 case .failure(let error):
                     if (error as NSError).code != NSUserCancelledError { importError = error.localizedDescription }
                 }
             }
+            .safeAreaInset(edge: .top) { if sheet == nil { ImportStatusView(coordinator: importJob) } }
+            .onChange(of: importError) { _, value in if value == nil { presentPendingImport() } }
+            .onChange(of: importJob.state) { _, _ in presentPendingImport() }
+            .onChange(of: importing) { _, value in if !value { presentPendingImport() } }
+            .onDisappear { importJob.cancel() }
             .alert("無法讀取清單", isPresented: Binding(get: { importError != nil }, set: { if !$0 { importError = nil } })) {
                 Button("知道了") { importError = nil }
             } message: { Text(importError ?? "") }
+            .onChange(of: deleting) { _, value in if value == nil { presentPendingImport() } }
             .confirmationDialog("刪除「\(deleting?.name ?? "")」？", isPresented: Binding(get: { deleting != nil }, set: { if !$0 { deleting = nil } }), titleVisibility: .visible) {
                 Button("刪除清單", role: .destructive) { if let deleting { store.delete(deleting) }; deleting = nil }
             } message: { Text("這份清單與其中的選項將被移除，抽選紀錄會保留。") }
         }.presentationDragIndicator(.visible)
+    }
+
+    private func presentPendingImport() {
+        guard sheet == nil, !importing, deleting == nil, importError == nil else { return }
+        switch importJob.takePending() {
+        case .ready(let list): sheet = .importList(list)
+        case .failed(let message): importError = message
+        case .idle, .reading: break
+        }
     }
 }

@@ -19,7 +19,7 @@ struct ContentView: View {
     @AppStorage("selectedFoodList") private var selectedID = ""
     @State private var sheet: HomeSheet?
     @State private var spinning = false
-    @State private var pendingImport: FoodList?
+    @State private var importJob = ListImportCoordinator(reader: ListFileReader.read)
     @State private var importError: String?
     @Environment(\.dynamicTypeSize) private var typeSize
     private var selected: FoodList? { store.lists.first { $0.id.uuidString == selectedID } ?? store.lists.first }
@@ -66,13 +66,11 @@ struct ContentView: View {
                     Button("知道了") { importError = nil }
                 } message: { Text(importError ?? "") }
             }
-            .safeAreaInset(edge: .top) { if spinning { pendingBanner } }
-            .onOpenURL { url in
-                Task {
-                    do { pendingImport = try await ListFileReader.read(url); presentPendingImport() }
-                    catch { importError = error.localizedDescription }
-                }
-            }
+            .safeAreaInset(edge: .top) { if sheet == nil { pendingBanner } }
+            .onOpenURL { url in importJob.start(url) }
+            .onChange(of: importError) { _, value in if value == nil { presentPendingImport() } }
+            .onChange(of: importJob.state) { _, _ in presentPendingImport() }
+            .onDisappear { importJob.cancel() }
             .onChange(of: spinning) { _, value in if !value { presentPendingImport() } }
             .alert("無法讀取清單", isPresented: Binding(get: { importError != nil && sheet == nil }, set: { if !$0 { importError = nil } })) {
                 Button("知道了") { importError = nil }
@@ -124,16 +122,14 @@ struct ContentView: View {
         .accessibilityIdentifier("listSelector")
     }
 
-    @ViewBuilder private var pendingBanner: some View {
-        if pendingImport != nil {
-            Label("已收到清單，完成目前操作後即可預覽匯入。", systemImage: "square.and.arrow.down")
-                .font(.caption).padding(12).frame(maxWidth: .infinity).background(Theme.greenWash)
-        }
-    }
+    private var pendingBanner: some View { ImportStatusView(coordinator: importJob) }
     private func presentPendingImport() {
-        guard sheet == nil, !spinning, let list = pendingImport else { return }
-        pendingImport = nil
-        sheet = .importList(list)
+        guard sheet == nil, !spinning, importError == nil else { return }
+        switch importJob.takePending() {
+        case .ready(let list): sheet = .importList(list)
+        case .failed(let message): importError = message
+        case .idle, .reading: break
+        }
     }
     private func newList() { sheet = .editor(FoodList(name: "", items: [])) }
 }

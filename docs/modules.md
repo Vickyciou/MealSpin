@@ -11,10 +11,11 @@
 | 功能 | 原始碼與主要型別 | 責任 | 直接依賴／交接 |
 | --- | --- | --- | --- |
 | App 入口與共用樣式 | [MealSpinApp.swift](../MealSpin/MealSpinApp.swift)：`MealSpinApp`、`Theme`、按鈕樣式 | 建立 store、切換測試資料入口、提供儲存錯誤提醒與共用視覺樣式 | 將 store 傳入 `ContentView`；各畫面使用 `Theme` 與按鈕樣式 |
-| 首頁與畫面協調 | [ContentView.swift](../MealSpin/ContentView.swift)：`ContentView`、`HomeSheet` | 選取清單、開啟各功能 sheet、處理外部 URL 與待匯入資料 | 持有選取偏好與抽選狀態；呼叫 `ListFileReader`，將 store 傳入子畫面 |
+| 首頁與畫面協調 | [ContentView.swift](../MealSpin/ContentView.swift)：`ContentView`、`HomeSheet` | 選取清單、開啟各功能 sheet、處理外部 URL 與待匯入資料 | 持有選取偏好與抽選狀態；持有首頁 `ListImportCoordinator`，將 store 傳入子畫面 |
 | 資料與契約 | [Models.swift](../MealSpin/Models.swift)：`FoodList`、`MealDecision`、`SavedMeals`、`MealStore`、`WheelMath`、`ListPackage` | 清單／紀錄模型、本機讀寫保護、回復與副本保存、暫停項目、轉盤角度與分享格式驗證 | 使用 Foundation、Observation；畫面透過 store 方法更新共用資料 |
 | 抽選與參與項目 | [WheelView.swift](../MealSpin/WheelView.swift)：`WheelScreen`、`WheelDisc` | 呈現轉盤、管理抽選動畫與目前結果、設定本次候選項目 | 透過 `MealStore` 讀取候選並記錄結果；使用 `WheelMath` 對齊指針；編輯及分享交回首頁 |
 | 清單庫 | [ListLibrary.swift](../MealSpin/ListLibrary.swift)：`ListLibrary`、`LibrarySheet` | 搜尋、選取與刪除清單，開啟編輯／分享／匯入 | 將選取 UUID 透過 callback 回傳；使用 `ListFileReader` 與各清單 sheet |
+| 匯入工作 | [ListImportCoordinator.swift](../MealSpin/ListImportCoordinator.swift)：`ListImportCoordinator` | 管理最新請求、取消、讀取狀態與單一待處理結果 | 注入 reader；首頁與清單庫各自決定呈現條件 |
 | 資料回復 | [RecoveryView.swift](../MealSpin/RecoveryView.swift)：`RecoveryView`、`RecoveryBackupsView` | 持續呈現重讀、備份、確認重建與副本匯出 | 呼叫 `MealStore` 的回復方法，不直接寫入資料 |
 | 清單編輯 | [ListEditor.swift](../MealSpin/ListEditor.swift)：`ListEditor` | 維護編輯草稿、整理多行選項、排序、確認放棄修改 | 使用 `store.save` 儲存；成功後回傳清單 UUID |
 | 分享與匯入 | [ListSharing.swift](../MealSpin/ListSharing.swift)：`ListFileReader`、`ListFileExporter`、`ListShareView`、`ListImportView`、`NativeShareSheet` | 檔案讀寫、匯入預覽、檔案／文字分享與 UIKit 橋接 | 使用 `ListPackage` 驗證格式；匯入確認後呼叫 `store.save`；系統分享透過 `UIActivityViewController` |
@@ -41,6 +42,7 @@
 | [Assets.xcassets](../MealSpin/Assets.xcassets) | App 圖示等 Xcode 資產 |
 | [Design/AppIcon-Source.png](../Design/AppIcon-Source.png) | 儲存庫中的 App 圖示來源圖片 |
 | [Tests/ModelChecks.swift](../Tests/ModelChecks.swift) | 不依賴模擬器的資料、分享契約與轉盤幾何檢查 |
+| [Tests/ImportChecks.swift](../Tests/ImportChecks.swift) | 以可控制 reader 與工作完成順序檢查取消、反序結果及過期錯誤 |
 | [Tests/FlowTests.swift](../Tests/FlowTests.swift) | 模擬器操作流程與畫面附件 |
 | [docs/images](images) | README 與安裝教學使用的實際畫面素材 |
 

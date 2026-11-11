@@ -54,6 +54,17 @@ xcrun swiftc -parse-as-library MealSpin/Models.swift Tests/ModelChecks.swift -o 
 - 分享格式往返、新 UUID 與獨立副本、隱私欄位、格式／版本／大小／長度驗證、圖示備援及空清單。
 - 暫時排除、跨清單保留、重新啟動／全部參與恢復、分享完整清單與編輯／刪除後的設定整理。
 
+## 匯入競態檢查
+
+[Tests/ImportChecks.swift](../Tests/ImportChecks.swift) 使用可注入 reader 與 continuation 控制讀取完成順序，直接等待每個工作的完成，不以固定等待時間排序。
+
+```sh
+xcrun swiftc -parse-as-library MealSpin/Models.swift MealSpin/ListImportCoordinator.swift Tests/ImportChecks.swift -o /tmp/mealspin-import-checks
+/tmp/mealspin-import-checks
+```
+
+檢查 A、B 反序完成、過期成功與錯誤、取消後遲到結果、清除待處理值及離開畫面所使用的 teardown 操作。這些是協調器檢查，不能代替真實檔案入口與草稿保持的 UI 驗收。
+
 ## UI 流程測試
 
 共用的 [MealSpin scheme](../MealSpin.xcodeproj/xcshareddata/xcschemes/MealSpin.xcscheme) 將 [Tests/FlowTests.swift](../Tests/FlowTests.swift) 納入 `MealSpinUITests`：
@@ -80,6 +91,12 @@ xcodebuild -project MealSpin.xcodeproj -scheme MealSpin \
 - `--corrupt-test-data` 在測試檔案寫入無效資料，進入回復流程。
 
 外部檔案測試會將後續啟動參數改為只含 `--ui-testing`，避免開啟文件時再次清除已建立的測試資料。
+
+### 驗證延遲匯入與草稿
+
+開啟編輯畫面並輸入尚未儲存的內容。從系統「檔案」或其他 App 將 `.mealspin` 交給正在執行的 MealSpin，確認編輯內容仍在，結束編輯後才顯示匯入預覽。讀取期間亦須檢查取消與離開清單庫。
+
+XCTest 的 `XCUIApplication.open(_:)` 具有啟動 App 的語意，不能用它證明原有程序中的草稿得以保留。現有外部檔案測試涵蓋開啟、預覽、取消與儲存；延遲讀取期間的真實草稿保持仍須另外操作驗收。
 
 ## 核對文字擷取與輔助使用
 

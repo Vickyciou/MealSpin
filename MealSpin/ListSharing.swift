@@ -27,24 +27,39 @@ enum ListFileExporter {
 
 enum ListFileReader {
     static func read(_ url: URL) async throws -> FoodList {
-        try await Task.detached(priority: .userInitiated) {
+        let worker = Task.detached(priority: .userInitiated) {
+            try Task.checkCancellation()
             guard url.isFileURL else { throw ListPackage.PackageError.invalid }
             let access = url.startAccessingSecurityScopedResource()
             defer { if access { url.stopAccessingSecurityScopedResource() } }
             var result: Result<FoodList, Error>?
             var coordinationError: NSError?
+            try Task.checkCancellation()
             NSFileCoordinator().coordinate(readingItemAt: url, options: [], error: &coordinationError) { readable in
                 result = Result {
+                    try Task.checkCancellation()
                     let handle = try FileHandle(forReadingFrom: readable)
                     defer { try? handle.close() }
                     let data = try handle.read(upToCount: ListPackage.maxBytes + 1) ?? Data()
-                    return try ListPackage.decode(data)
+                    try Task.checkCancellation()
+                    let list = try ListPackage.decode(data)
+                    try Task.checkCancellation()
+                    return list
                 }
             }
+            try Task.checkCancellation()
             if let coordinationError { throw coordinationError }
             guard let result else { throw ListPackage.PackageError.invalid }
             return try result.get()
-        }.value
+        }
+        return try await withTaskCancellationHandler {
+            try Task.checkCancellation()
+            let list = try await worker.value
+            try Task.checkCancellation()
+            return list
+        } onCancel: {
+            worker.cancel()
+        }
     }
 }
 
@@ -152,5 +167,25 @@ struct ListImportView: View {
                     Button("知道了") { error = nil }
                 } message: { Text(error ?? "") }
         }.presentationDragIndicator(.visible)
+    }
+}
+
+struct ImportStatusView: View {
+    let coordinator: ListImportCoordinator
+    var body: some View {
+        switch coordinator.state {
+        case .reading:
+            VStack(alignment: .leading, spacing: 8) {
+                ProgressView("正在讀取清單⋯")
+                Button("取消讀取", role: .cancel) { coordinator.cancel() }
+                    .accessibilityIdentifier("cancelImportRead")
+            }.padding(12).frame(maxWidth: .infinity, alignment: .leading).background(Theme.greenWash)
+        case .ready:
+            Label("已收到清單，完成目前操作後即可預覽匯入。", systemImage: "square.and.arrow.down")
+                .font(.caption).padding(12).frame(maxWidth: .infinity).background(Theme.greenWash)
+                .accessibilityIdentifier("pendingImport")
+        case .idle, .failed:
+            EmptyView()
+        }
     }
 }

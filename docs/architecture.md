@@ -39,7 +39,7 @@ flowchart TD
 | 暫停參與的項目 | `MealStore.temporaryExclusions` | 依清單 UUID 保存食物名稱集合，只在目前程序記憶體存在；切換清單及再次抽選會保留，重新啟動後清除 |
 | 編輯草稿 | `ListEditor` 的區域狀態 | 儲存成功才更新 store；放棄修改不寫入 |
 | 轉盤角度與目前結果 | `WheelScreen` 的區域狀態 | 參與項目改變時清除角度與目前結果；歷史紀錄另外由 store 保存 |
-| 待預覽的外部清單 | `ContentView.pendingImport` | 單一暫存值，首頁沒有 sheet 且未抽選時才呈現預覽 |
+| 匯入讀取工作與待處理結果 | 首頁與清單庫各自持有 `ListImportCoordinator` | 每入口保留一個最新請求；取消及過期工作不再發布結果，待畫面空閒才預覽 |
 | 讀取失敗與回復副本 | `MealStore.loadState`；`Documents/MealSpin Recovery` | 提醒關閉不解除寫入保護；副本保留至 App 被刪除，可從首頁另行匯出 |
 
 `MealStore.LoadState` 區分首次建立、已載入與需要回復。本機檔案不存在時，store 建立並儲存三份範例清單。既有檔案讀取或解碼失敗時，store 進入回復狀態，首頁持續顯示回復操作。`commit(lists:history:)` 在這個狀態拒絕 `save`、`delete`、`record` 與 `clearHistory`，回傳 `false` 並保留原始 bytes；關閉 `errorMessage` 不改變寫入權限。
@@ -105,7 +105,11 @@ flowchart TD
 
 兩個匯入入口都透過 `ListFileReader.read` 讀取本機檔案 URL，處理 security-scoped resource 存取與 `NSFileCoordinator` 協調，在背景工作中限制讀取量並解碼，再由 `ListImportView` 預覽。
 
-收到外部檔案時，`ContentView` 會在首頁 sheet 關閉及抽選結束後嘗試顯示預覽。待處理資料是單一值；此處沒有多檔匯入佇列。從清單庫的檔案選擇器匯入則在清單庫內顯示預覽。
+`ListImportCoordinator.State` 表示 idle、帶有請求 UUID 的 reading、ready 清單或 failed 訊息。首頁與清單庫分別持有協調器，reader 可注入供測試控制完成順序。新請求取消舊工作，並清除其尚未呈現結果。工作回傳成功或錯誤時，仍須核對目前 UUID 與取消狀態。已顯示的編輯或預覽不會被替換，新的結果留在協調器等待。
+
+首頁在 sheet 關閉、抽選結束且沒有匯入錯誤提醒時才呈現結果。清單庫等待自己的編輯、分享、匯入預覽、檔案選擇器與刪除確認結束。離開清單庫時取消讀取並清除待處理狀態。每個入口只保留一份待處理結果，沒有多檔匯入佇列。讀取進度提供取消操作。
+
+`ListFileReader.read` 將父工作的取消傳給 detached worker，在協調、讀取及解碼前後檢查取消，並以 `defer` 成對釋放 security scope。同步 `NSFileCoordinator` 可能須等底層操作結束才返回，因此畫面入口的請求識別仍負責拒絕遲到結果。
 
 按「加入我的清單」且 store 儲存成功才完成匯入；取消不寫入。同名清單因 UUID 不同而新增為獨立副本。`ListFileExporter` 將分享檔案寫入暫存目錄，再交給 `UIActivityViewController`；文字分享只包含清單名稱與選項。
 
@@ -115,6 +119,6 @@ flowchart TD
 - [ContentView.swift](../MealSpin/ContentView.swift)、[ListLibrary.swift](../MealSpin/ListLibrary.swift)：畫面協調與匯入入口。
 - [Models.swift](../MealSpin/Models.swift)：資料保存、抽選幾何與分享格式。
 - [WheelView.swift](../MealSpin/WheelView.swift)、[ListEditor.swift](../MealSpin/ListEditor.swift)、[HistoryView.swift](../MealSpin/HistoryView.swift)：抽選與編輯／紀錄行為。
-- [RecoveryView.swift](../MealSpin/RecoveryView.swift)：資料回復與副本匯出。
+- [ListImportCoordinator.swift](../MealSpin/ListImportCoordinator.swift)、[RecoveryView.swift](../MealSpin/RecoveryView.swift)：匯入生命週期、資料回復與副本匯出。
 - [ListSharing.swift](../MealSpin/ListSharing.swift)、[Info.plist](../MealSpin/Info.plist)：檔案讀寫與系統型別註冊。
 - [ModelChecks.swift](../Tests/ModelChecks.swift)、[FlowTests.swift](../Tests/FlowTests.swift)：資料契約與操作流程檢查；執行方式及實機驗證範圍見 [開發說明](DEVELOPMENT.md)。
