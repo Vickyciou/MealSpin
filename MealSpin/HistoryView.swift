@@ -48,8 +48,8 @@ struct HistoryView: View {
         }.presentationDragIndicator(.visible)
     }
     private func dayTitle(_ date: Date) -> String {
-        if Calendar.current.isDateInToday(date) { return "今天" }
-        if Calendar.current.isDateInYesterday(date) { return "昨天" }
+        if Calendar.current.isDateInToday(date) { return String(localized: "今天") }
+        if Calendar.current.isDateInYesterday(date) { return String(localized: "昨天") }
         return date.formatted(.dateTime.month().day())
     }
 }

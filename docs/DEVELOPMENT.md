@@ -86,6 +86,7 @@ xcodebuild -project MealSpin.xcodeproj -scheme MealSpin \
 | `testReduceMotionRecordsEachSpinOnce` | 無動畫分支連續抽選兩次，紀錄只有兩筆 |
 | `testMaximumTypeOperationsInPortraitAndLandscape` | 最大字級選取、編輯入口、抽選、分享及橫向操作 |
 | `testMaximumTypeRecoveryRemainsReachable` | 最大字級備份、匯出入口及重建後主操作 |
+| `testPseudoLocalizedLongContentAtMaximumType` | 雙倍 App 文案、最大字級、長名稱與長食物的建立、抽選、分享頁與實際檔案匯入 |
 
 `--ui-testing` 使用獨立的 `Documents/ui-tests.json` 與 `Documents/UITest Recovery` 副本目錄。`--reset-test-data` 刪除這兩處測試資料並清除 `selectedFoodList` 偏好，不刪除正式資料或正式回復副本。正式資料契約見 [架構文件](architecture.md#狀態與儲存)。
 
@@ -116,6 +117,8 @@ xcrun xcstringstool sync MealSpin/Localizable.xcstrings --stringsdata "${app_str
 ```
 
 同步後核對繁體中文資源，再執行相同建置命令確認 Catalog 可編譯。不要傳入 UI 測試 target 的擷取結果，也不要將清單名稱、食物與歷史快照當成翻譯文案。
+
+以 Xcode 偽本地化的長文字檢查首頁、編輯、分享、匯入與回復。`testPseudoLocalizedLongContentAtMaximumType` 以 `-NSDoubleLocalizedStrings YES` 啟用雙倍文案，先確認 App 標題確實加長，再確認使用者食物名稱仍保持原文。此參數的語意見 [Apple 的偽本地化測試說明](https://developer-mdn.apple.com/library/archive/documentation/MacOSX/Conceptual/BPInternational/TestingYourInternationalApp/TestingYourInternationalApp.html)。雙倍文案模式的數值插值可能顯示額外的 placeholder 文字，須與一般語系的數值顯示分開判讀。以最大字級操作，記錄裝置、OS、視窗尺寸、方向、明暗模式與操作結果。使用 VoiceOver 完成建立、抽選與匯入，另在系統開關 Reduce Motion 後重驗抽選。一般字級截圖不代表最大字級驗收；測試旗標也不代表系統設定已實測。
 
 ## 截圖素材
 

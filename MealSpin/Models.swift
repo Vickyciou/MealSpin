@@ -211,12 +211,12 @@ struct ListPackage: Codable {
         case invalid, version, tooLarge, invalidName, tooManyItems, longItem
         var errorDescription: String? {
             switch self {
-            case .invalid: return "這不是有效的「今天吃什麼」清單檔案。"
-            case .version: return "這份清單使用較新的格式，請更新 App 後再試。"
-            case .tooLarge: return "檔案太大，請選擇小於 1 MB 的清單檔案。"
-            case .invalidName: return "清單名稱不可空白，且需在 120 個字以內。"
-            case .tooManyItems: return "一份分享清單最多可包含 500 個選項。"
-            case .longItem: return "每個選項需在 200 個字以內。"
+            case .invalid: return String(localized: "這不是有效的「今天吃什麼」清單檔案。")
+            case .version: return String(localized: "這份清單使用較新的格式，請更新 App 後再試。")
+            case .tooLarge: return String(localized: "檔案太大，請選擇小於 1 MB 的清單檔案。")
+            case .invalidName: return String(localized: "清單名稱不可空白，且需在 120 個字以內。")
+            case .tooManyItems: return String(localized: "一份分享清單最多可包含 500 個選項。")
+            case .longItem: return String(localized: "每個選項需在 200 個字以內。")
             }
         }
     }

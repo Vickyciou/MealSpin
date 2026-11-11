@@ -41,7 +41,7 @@ struct ListLibrary: View {
                                     VStack(alignment: .leading, spacing: 6) {
                                         Text(list.name).font(.subheadline.weight(.semibold)).foregroundStyle(Theme.ink)
                                             .fixedSize(horizontal: false, vertical: true)
-                                        Text(list.items.isEmpty ? "還沒有選項" : "\(list.items.count) 個選項")
+                                        Text(list.items.isEmpty ? String(localized: "還沒有選項") : String(localized: "\(list.items.count) 個選項"))
                                             .font(.caption).foregroundStyle(Theme.muted)
                                     }
                                     Spacer(minLength: 4)

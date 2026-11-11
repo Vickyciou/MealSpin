@@ -291,4 +291,58 @@ final class FlowTests: XCTestCase {
         screenshot("MaximumType-Recovered")
     }
 
+    @MainActor func testPseudoLocalizedLongContentAtMaximumType() throws {
+        let app = XCUIApplication()
+        let settings = ["--ui-testing", "--maximum-type", "--reduce-motion", "-NSDoubleLocalizedStrings", "YES"]
+        app.launchArguments = settings + ["--reset-test-data"]
+        app.launch()
+        let title = app.staticTexts.matching(NSPredicate(format: "label BEGINSWITH %@", "今天吃什麼")).firstMatch
+        XCTAssertTrue(title.waitForExistence(timeout: 5))
+        XCTAssertGreaterThan(title.label.count, "今天吃什麼".count, "確認偽本地化確實生效")
+        app.buttons.matching(NSPredicate(format: "label BEGINSWITH %@", "新增清單")).firstMatch.tap()
+        let name = app.textFields["listNameField"]
+        XCTAssertTrue(name.waitForExistence(timeout: 5))
+        XCTAssertGreaterThan(name.frame.height, 44)
+        let longName = "週末和朋友一起尋找想吃的料理與餐廳口袋名單"
+        let longFood = "巷口新開的手工蔬菜蛋餅搭配熱豆漿與季節限定小菜"
+        name.tap()
+        name.typeText(longName)
+        let food = app.textFields["newFoodField"]
+        reveal(food, in: app)
+        food.tap()
+        food.typeText(longFood)
+        app.buttons.matching(NSPredicate(format: "label BEGINSWITH %@", "儲存")).firstMatch.tap()
+        let spin = app.buttons["spinButton"]
+        XCTAssertTrue(spin.waitForExistence(timeout: 5))
+        reveal(spin, in: app)
+        spin.tap()
+        let result = app.staticTexts["spinResult"].firstMatch
+        XCTAssertEqual(result.label, longFood)
+        reveal(result, in: app, towardTop: true)
+        screenshot("Pseudo-MaximumType-LongResult")
+        let share = app.buttons.matching(NSPredicate(format: "label BEGINSWITH %@", "分享清單")).firstMatch
+        reveal(share, in: app)
+        share.tap()
+        let fileShare = app.buttons["shareListFile"]
+        reveal(fileShare, in: app)
+        XCTAssertTrue(fileShare.isHittable)
+        screenshot("Pseudo-MaximumType-Sharing")
+        app.buttons.matching(NSPredicate(format: "label BEGINSWITH %@", "完成")).firstMatch.tap()
+        let file = URL.temporaryDirectory.appendingPathComponent("long-content.mealspin")
+        let payload: [String: Any] = ["format": "mealspin-list", "version": 1, "name": longName, "symbol": "sun.max.fill", "items": [longFood]]
+        try JSONSerialization.data(withJSONObject: payload).write(to: file)
+        defer { try? FileManager.default.removeItem(at: file) }
+        app.launchArguments = settings
+        app.open(file)
+        let confirm = app.buttons["confirmImport"]
+        XCTAssertTrue(confirm.waitForExistence(timeout: 5))
+        XCTAssertTrue(app.staticTexts[longFood].exists)
+        screenshot("Pseudo-MaximumType-Import")
+        reveal(confirm, in: app)
+        confirm.tap()
+        let selector = app.buttons["listSelector"]
+        XCTAssertTrue(selector.waitForExistence(timeout: 5))
+        XCTAssertTrue(selector.label.contains(longName))
+    }
+
 }

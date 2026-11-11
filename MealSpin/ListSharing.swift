@@ -19,7 +19,7 @@ enum ListFileExporter {
         let folder = directory.appending(path: UUID().uuidString, directoryHint: .isDirectory)
         try FileManager.default.createDirectory(at: folder, withIntermediateDirectories: true)
         let name = String(list.name.unicodeScalars.filter { CharacterSet.alphanumerics.union(.init(charactersIn: " -_（）()")).contains($0) }.map(String.init).joined().prefix(60))
-        let file = folder.appending(path: (name.isEmpty ? "吃什麼清單" : name) + ".mealspin")
+        let file = folder.appending(path: (name.isEmpty ? String(localized: "吃什麼清單") : name) + ".mealspin")
         try data.write(to: file, options: .atomic)
         return file
     }
@@ -147,7 +147,7 @@ struct ListImportView: View {
                     Label(list.name, systemImage: list.symbol).font(.headline).padding(.vertical, 8)
                     Text("\(list.items.count) 個選項").foregroundStyle(Theme.muted)
                 } footer: {
-                    Text(store.lists.contains { $0.name == list.name } ? "已有同名清單。匯入會建立另一份副本，不會覆蓋原本內容。" : "匯入會建立一份新清單，不會變更現有清單。")
+                    Text(store.lists.contains { $0.name == list.name } ? String(localized: "已有同名清單。匯入會建立另一份副本，不會覆蓋原本內容。") : String(localized: "匯入會建立一份新清單，不會變更現有清單。"))
                 }
                 Section("選項預覽") {
                     ForEach(Array(list.items.enumerated()), id: \.offset) { _, food in Text(food) }

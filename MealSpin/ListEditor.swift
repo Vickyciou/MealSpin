@@ -20,7 +20,7 @@ struct ListEditor: View {
     private enum Field: Hashable { case name, newItem }
     @FocusState private var focusedField: Field?
     @Environment(\.dismiss) private var dismiss
-    private let symbols: [(String, String)] = [("fork.knife", "餐點"), ("takeoutbag.and.cup.and.straw.fill", "外帶"), ("sparkles", "犒賞"), ("sun.max.fill", "早餐"), ("cup.and.saucer.fill", "咖啡"), ("birthday.cake.fill", "甜點")]
+    private let symbols: [(String, LocalizedStringResource)] = [("fork.knife", "餐點"), ("takeoutbag.and.cup.and.straw.fill", "外帶"), ("sparkles", "犒賞"), ("sun.max.fill", "早餐"), ("cup.and.saucer.fill", "咖啡"), ("birthday.cake.fill", "甜點")]
 
     init(store: MealStore, list: FoodList, onSaved: @escaping (UUID) -> Void = { _ in }) {
         self.store = store
@@ -50,7 +50,7 @@ struct ListEditor: View {
                                     .frame(maxWidth: .infinity, minHeight: 48)
                                     .background(symbol == value.0 ? Theme.orangeWash : Theme.cream, in: RoundedRectangle(cornerRadius: 13))
                                     .overlay(RoundedRectangle(cornerRadius: 13).stroke(symbol == value.0 ? Theme.orange : .clear, lineWidth: 1.5))
-                            }.buttonStyle(.borderless).accessibilityLabel(value.1)
+                            }.buttonStyle(.borderless).accessibilityLabel(Text(value.1))
                                 .accessibilityAddTraits(symbol == value.0 ? .isSelected : [])
                         }
                     }.padding(.vertical, 6)
@@ -98,7 +98,7 @@ struct ListEditor: View {
                     HStack {
                         Text("\(options.count) 個選項")
                         Spacer()
-                        Button(editMode == .active ? "完成排序" : "排序") {
+                        Button(editMode == .active ? String(localized: "完成排序") : String(localized: "排序")) {
                             focusedField = nil
                             withAnimation { editMode = editMode == .active ? .inactive : .active }
                         }.font(.caption.weight(.semibold)).frame(minHeight: 44).disabled(options.count < 2)
@@ -108,7 +108,7 @@ struct ListEditor: View {
             .environment(\.editMode, $editMode)
             .scrollDismissesKeyboard(.interactively)
             .scrollContentBackground(.hidden).background(Theme.cream)
-            .navigationTitle(isNew ? "新增清單" : "編輯清單").navigationBarTitleDisplayMode(.inline)
+            .navigationTitle(isNew ? String(localized: "新增清單") : String(localized: "編輯清單")).navigationBarTitleDisplayMode(.inline)
             .toolbar {
                 ToolbarItem(placement: .cancellationAction) { Button("取消") { focusedField = nil; if dirty { discard = true } else { dismiss() } } }
                 ToolbarItem(placement: .confirmationAction) { Button("儲存", action: save).fontWeight(.semibold).disabled(!valid) }
@@ -129,7 +129,7 @@ struct ListEditor: View {
         var seen = Set(options.map { $0.name.trimmingCharacters(in: .whitespacesAndNewlines) })
         let added = incoming.filter { seen.insert($0).inserted }
         options.append(contentsOf: added.map { DraftFood(name: $0) })
-        if !incoming.isEmpty { feedback = added.isEmpty ? "這些選項已經在清單裡囉。" : "已加入 \(added.count) 個選項" }
+        if !incoming.isEmpty { feedback = added.isEmpty ? String(localized: "這些選項已經在清單裡囉。") : String(localized: "已加入 \(added.count) 個選項") }
         newItem = ""
     }
     private func save() {

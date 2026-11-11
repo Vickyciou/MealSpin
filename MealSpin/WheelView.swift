@@ -101,16 +101,16 @@ struct WheelScreen: View {
         }
         .accessibilityElement(children: .ignore)
         .accessibilityLabel("食物轉盤，\(participating.count) 個項目參與抽選，\(pausedCount) 個暫停")
-        .accessibilityValue(spinning ? "轉動中" : result ?? "尚未抽選")
+        .accessibilityValue(spinning ? String(localized: "轉動中") : result ?? String(localized: "尚未抽選"))
     }
 
     private var resultCard: some View {
         VStack(spacing: 8) {
             HStack(spacing: 6) {
                 if result != nil { Image(systemName: "checkmark.seal.fill") }
-                Text(spinning ? "正在挑選你的下一餐" : result == nil ? "今天的美味，交給一點運氣" : "今天就吃這個")
+                Text(spinning ? String(localized: "正在挑選你的下一餐") : result == nil ? String(localized: "今天的美味，交給一點運氣") : String(localized: "今天就吃這個"))
             }.font(.caption.weight(.medium)).foregroundStyle(result == nil ? Theme.muted : Theme.green)
-            Text(spinning ? "讓轉盤想一下⋯" : result ?? "準備好開動了嗎？")
+            Text(spinning ? String(localized: "讓轉盤想一下⋯") : result ?? String(localized: "準備好開動了嗎？"))
                 .font(.system(result == nil ? .title3 : .title, design: .rounded, weight: .bold))
                 .foregroundStyle(Theme.ink).multilineTextAlignment(.center)
                 .fixedSize(horizontal: false, vertical: true)
@@ -128,7 +128,7 @@ struct WheelScreen: View {
             Button { showingOptions = true } label: {
                 HStack(spacing: 6) {
                     Image(systemName: "list.bullet")
-                    Text(pausedCount == 0 ? "\(list.items.count) 個選項" : "\(participating.count)/\(list.items.count) 項參與")
+                    Text(pausedCount == 0 ? String(localized: "\(list.items.count) 個選項") : String(localized: "\(participating.count)/\(list.items.count) 項參與"))
                 }.font(.subheadline).foregroundStyle(Theme.muted).frame(minHeight: 44)
             }.accessibilityLabel("選擇本次參與項目，目前\(participating.count)個參與，\(pausedCount)個暫停").accessibilityIdentifier("participationOptions").disabled(spinning)
             if !typeSize.isAccessibilitySize { Spacer() }
@@ -147,11 +147,11 @@ struct WheelScreen: View {
                 HStack(spacing: 10) {
                     if spinning { ProgressView().tint(.white) }
                     else { Image(systemName: list.items.isEmpty ? "plus" : participating.isEmpty ? "checklist" : "arrow.2.circlepath") }
-                    Text(list.items.isEmpty ? "加入想吃的選項" : participating.isEmpty ? "選擇參與項目" : spinning ? "美味決定中⋯" : result == nil ? "轉一下，決定吃什麼" : "再轉一次")
+                    Text(list.items.isEmpty ? String(localized: "加入想吃的選項") : participating.isEmpty ? String(localized: "選擇參與項目") : spinning ? String(localized: "美味決定中⋯") : result == nil ? String(localized: "轉一下，決定吃什麼") : String(localized: "再轉一次"))
                         .fixedSize(horizontal: false, vertical: true).multilineTextAlignment(.center)
                 }
             }.buttonStyle(PrimaryButtonStyle()).disabled(spinning).accessibilityIdentifier("spinButton")
-            Text(list.items.isEmpty ? "從餐廳、料理到小吃，都可以加入" : pausedCount > 0 ? "本次 \(participating.count) 項參與 · \(pausedCount) 項暫停，未刪除" : "每個選項機率相同 · 只儲存在你的手機")
+            Text(list.items.isEmpty ? String(localized: "從餐廳、料理到小吃，都可以加入") : pausedCount > 0 ? String(localized: "本次 \(participating.count) 項參與 · \(pausedCount) 項暫停，未刪除") : String(localized: "每個選項機率相同 · 只儲存在你的手機"))
                 .accessibilityIdentifier("participationStatus")
                 .font(.caption2).foregroundStyle(Theme.muted).multilineTextAlignment(.center)
                 .fixedSize(horizontal: false, vertical: true)
@@ -182,7 +182,7 @@ struct WheelScreen: View {
                                     .frame(width: 30).accessibilityHidden(true)
                                 VStack(alignment: .leading, spacing: 4) {
                                     Text(food).foregroundStyle(included ? Theme.ink : Theme.muted)
-                                    Text(included ? "參與抽選 · \(100.0 / Double(max(participating.count, 1)), specifier: "%.1f")%" : "本次不參與，仍保留在清單")
+                                    Text(included ? String(localized: "參與抽選 · \((1.0 / Double(max(participating.count, 1))).formatted(.percent.precision(.fractionLength(1))))") : String(localized: "本次不參與，仍保留在清單"))
                                         .font(.caption).foregroundStyle(Theme.muted)
                                 }.fixedSize(horizontal: false, vertical: true)
                                 Spacer(minLength: 0)
@@ -190,7 +190,7 @@ struct WheelScreen: View {
                         }
                         .buttonStyle(.plain).disabled(spinning)
                         .accessibilityLabel(food)
-                        .accessibilityValue(included ? "參與抽選" : "本次暫停")
+                        .accessibilityValue(included ? String(localized: "參與抽選") : String(localized: "本次暫停"))
                         .accessibilityAddTraits(included ? .isSelected : [])
                         .accessibilityIdentifier("participation-\(food)")
                         .accessibilityHint("只影響本次轉盤，不會刪除項目")

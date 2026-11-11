@@ -118,6 +118,8 @@ flowchart TD
 
 首頁在輔助使用字級或可用高度低於 500 點時，將標頭、選擇器、轉盤與主操作放入同一個捲動範圍；輔助使用字級下，標頭和轉盤輔助操作改為垂直排列。一般高度維持底部主按鈕，移除 `.xxxLarge` 字級上限。轉盤扇區文字仍為視覺摘要，完整項目名稱由參與面板提供。
 
+App 文案透過 SwiftUI 本地化 literal、`LocalizedStringResource` 或 `String(localized:)` 擷取到 `Localizable.xcstrings`。日期與百分比使用 Foundation 語系格式。清單、食物、匯入內容及紀錄快照保留原文；內建範例是可編輯的初始資料。此輪提供繁體中文資源與翻譯基礎，沒有新增其他語言翻譯。
+
 ## 實作與驗證依據
 
 - [MealSpinApp.swift](../MealSpin/MealSpinApp.swift)：store 生命週期與測試資料入口。
