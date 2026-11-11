@@ -1,12 +1,13 @@
 import SwiftUI
 
 private enum HomeSheet: Identifiable {
-    case lists, editor(FoodList), history, share(FoodList), importList(FoodList)
+    case lists, editor(FoodList), history, backups, share(FoodList), importList(FoodList)
     var id: String {
         switch self {
         case .lists: return "lists"
         case .editor(let list): return "editor-\(list.id)"
         case .history: return "history"
+        case .backups: return "backups"
         case .share(let list): return "share-\(list.id)"
         case .importList(let list): return "import-\(list.id)"
         }
@@ -27,7 +28,9 @@ struct ContentView: View {
         NavigationStack {
             VStack(spacing: 0) {
                 header.dynamicTypeSize(...DynamicTypeSize.xxxLarge).padding(.horizontal, 24).padding(.top, 8).padding(.bottom, 20)
-                if let selected {
+                if store.needsRecovery {
+                    RecoveryView(store: store)
+                } else if let selected {
                     selector(selected).dynamicTypeSize(...DynamicTypeSize.xxxLarge).padding(.horizontal, 24).padding(.bottom, 8)
                     WheelScreen(list: selected, store: store, spinning: $spinning, edit: { sheet = .editor(selected) }, share: { sheet = .share(selected) })
                         .id(selected)
@@ -53,6 +56,7 @@ struct ContentView: View {
                 case .editor(let list):
                     ListEditor(store: store, list: list, onSaved: { selectedID = $0.uuidString })
                 case .history: HistoryView(store: store)
+                case .backups: RecoveryBackupsView(store: store)
                 case .share(let list): ListShareView(list: list)
                 case .importList(let list): ListImportView(list: list, store: store, onImported: { selectedID = $0.uuidString })
                 }
@@ -86,6 +90,10 @@ struct ContentView: View {
                 }
             }
             Spacer(minLength: 0)
+            if !store.backups.isEmpty {
+                Button("原始資料副本", systemImage: "externaldrive") { sheet = .backups }
+                    .buttonStyle(RoundButtonStyle()).disabled(spinning).accessibilityIdentifier("recoveryBackups")
+            }
             Button("抽選紀錄", systemImage: "clock.arrow.circlepath") { sheet = .history }
                 .buttonStyle(RoundButtonStyle()).disabled(spinning).accessibilityLabel("抽選紀錄")
             Button("新增清單", systemImage: "plus") { newList() }

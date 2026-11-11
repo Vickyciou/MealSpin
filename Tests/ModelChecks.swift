@@ -2,6 +2,7 @@ import Foundation
 
 @main struct ModelChecks {
     @MainActor static func main() throws {
+        func tryRead(_ url: URL) -> Data { try! Data(contentsOf: url) }
         // Check the pointer against every segment, after repeated spins.
         var current = 0.0
         for count in 1...100 {
@@ -40,6 +41,62 @@ import Foundation
         precondition(corrupt.errorMessage != nil)
         let original = try String(contentsOf: file, encoding: .utf8)
         precondition(original == "invalid json")
+        let protectedFile = directory.appending(path: "protected.json")
+        let damagedBytes = Data("damaged original bytes".utf8)
+        try damagedBytes.write(to: protectedFile)
+        let protected = MealStore(file: protectedFile)
+        precondition(protected.needsRecovery)
+        protected.errorMessage = nil
+        let protectedWrites: [() -> Bool] = [{ protected.save(list) }, { protected.delete(list) }, { protected.record(food: "蛋餅", list: list) }, { protected.clearHistory() }]
+        for attempt in protectedWrites {
+            protected.errorMessage = nil
+            precondition(!attempt())
+            precondition(tryRead(protectedFile) == damagedBytes)
+        }
+        let restartedProtected = MealStore(file: protectedFile)
+        precondition(restartedProtected.needsRecovery)
+        let restartedWrites: [() -> Bool] = [{ restartedProtected.save(list) }, { restartedProtected.delete(list) }, { restartedProtected.record(food: "蛋餅", list: list) }, { restartedProtected.clearHistory() }]
+        for attempt in restartedWrites {
+            restartedProtected.errorMessage = nil
+            precondition(!attempt())
+            precondition(tryRead(protectedFile) == damagedBytes)
+        }
+        precondition(!protected.reload())
+        precondition(tryRead(protectedFile) == damagedBytes)
+        let backup = protected.preserveOriginal()!
+        precondition(tryRead(backup) == damagedBytes)
+        precondition(protected.needsRecovery)
+        let goodData = try JSONEncoder().encode(SavedMeals(lists: [list], history: [MealDecision(listName: list.name, food: "蛋餅", date: .now)]))
+        try goodData.write(to: protectedFile)
+        precondition(protected.reload())
+        precondition(!protected.needsRecovery && protected.lists == [list] && protected.history.count == 1)
+        precondition(protected.save(list))
+        try damagedBytes.write(to: protectedFile)
+        let recovery = MealStore(file: protectedFile)
+        precondition(recovery.rebuild())
+        precondition(!recovery.needsRecovery && recovery.lists.count == 3)
+        precondition(tryRead(recovery.backupURL!) == damagedBytes)
+        precondition(MealStore(file: protectedFile).lists == recovery.lists)
+        let discoveredBackups = MealStore(file: protectedFile).backups
+        precondition(discoveredBackups.contains { $0.resolvingSymlinksInPath() == recovery.backupURL!.resolvingSymlinksInPath() })
+        precondition(discoveredBackups.contains { tryRead($0) == damagedBytes })
+        try damagedBytes.write(to: protectedFile)
+        let blocker = directory.appending(path: "backup-blocker")
+        try Data().write(to: blocker)
+        let backupFailure = MealStore(file: protectedFile, backupDirectory: blocker)
+        precondition(!backupFailure.rebuild() && backupFailure.needsRecovery)
+        precondition(tryRead(protectedFile) == damagedBytes)
+        let writeFailure = MealStore(file: protectedFile, writeData: { _, _ in throw CocoaError(.fileWriteNoPermission) })
+        precondition(!writeFailure.rebuild() && writeFailure.needsRecovery)
+        precondition(writeFailure.lists.isEmpty && writeFailure.errorMessage != nil)
+        precondition(tryRead(writeFailure.backupURL!) == damagedBytes)
+        precondition(tryRead(protectedFile) == damagedBytes)
+        try FileManager.default.removeItem(at: protectedFile)
+        precondition(!writeFailure.reload() && !writeFailure.rebuild() && writeFailure.needsRecovery)
+        let emptyFile = directory.appending(path: "empty.json")
+        try JSONEncoder().encode(SavedMeals(lists: [], history: [])).write(to: emptyFile)
+        let legitimateEmpty = MealStore(file: emptyFile)
+        precondition(!legitimateEmpty.needsRecovery && legitimateEmpty.lists.isEmpty)
         let shared = FoodList(name: " 早餐 ", symbol: "sun.max.fill", items: [" 蛋餅 ", "飯糰", "", "蛋餅"])
         let exported = try ListPackage.encode(shared)
         let decoded = try ListPackage.decode(exported)
@@ -96,6 +153,6 @@ import Foundation
         session.setParticipation("新餐廳", in: edited, enabled: false)
         session.delete(edited)
         precondition(session.temporaryExclusions[edited.id] == nil)
-        print("PASS: 5,050 pointer checks; create/edit/delete/reload; history; save failure; corrupt-file preservation; sharing round-trip; independent copies; privacy; malformed/version/size validation; session exclusions/filter/reset/share/edit/delete")
+        print("PASS: 5,050 pointer checks; create/edit/delete/reload; history; save failure; protected writes/reload/backup/rebuild failures; sharing round-trip; independent copies; privacy; malformed/version/size validation; session exclusions/filter/reset/share/edit/delete")
     }
 }

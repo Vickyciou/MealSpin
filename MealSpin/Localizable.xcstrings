@@ -1,0 +1,1446 @@
+{
+  "sourceLanguage": "zh-Hant",
+  "strings": {
+    "%lld 份自己的口袋名單": {
+      "localizations": {
+        "zh-Hant": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "%lld 份自己的口袋名單"
+          }
+        }
+      }
+    },
+    "%lld 個選項": {
+      "localizations": {
+        "zh-Hant": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "%lld 個選項"
+          }
+        }
+      }
+    },
+    "%lld 項參與 · %lld 項暫停": {
+      "localizations": {
+        "zh-Hant": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "%1$lld 項參與 · %2$lld 項暫停"
+          }
+        }
+      }
+    },
+    "%lld/%lld 項參與": {
+      "localizations": {
+        "zh-Hant": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "%1$lld/%2$lld 項參與"
+          }
+        }
+      }
+    },
+    "一份分享清單最多可包含 500 個選項。": {
+      "localizations": {
+        "zh-Hant": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "一份分享清單最多可包含 500 個選項。"
+          }
+        }
+      }
+    },
+    "下一餐，從這裡開始": {
+      "localizations": {
+        "zh-Hant": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "下一餐，從這裡開始"
+          }
+        }
+      }
+    },
+    "今天": {
+      "localizations": {
+        "zh-Hant": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "今天"
+          }
+        }
+      }
+    },
+    "今天吃%@": {
+      "localizations": {
+        "zh-Hant": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "今天吃%@"
+          }
+        }
+      }
+    },
+    "今天吃什麼": {
+      "localizations": {
+        "zh-Hant": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "今天吃什麼"
+          }
+        }
+      }
+    },
+    "今天就吃這個": {
+      "localizations": {
+        "zh-Hant": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "今天就吃這個"
+          }
+        }
+      }
+    },
+    "今天的美味，交給一點運氣": {
+      "localizations": {
+        "zh-Hant": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "今天的美味，交給一點運氣"
+          }
+        }
+      }
+    },
+    "以文字分享名稱與選項，不需安裝 App 也能閱讀。分享內容不包含你的抽選紀錄。": {
+      "localizations": {
+        "zh-Hant": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "以文字分享名稱與選項，不需安裝 App 也能閱讀。分享內容不包含你的抽選紀錄。"
+          }
+        }
+      }
+    },
+    "例如：巷口牛肉麵、蛋餅、日式燒肉": {
+      "localizations": {
+        "zh-Hant": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "例如：巷口牛肉麵、蛋餅、日式燒肉"
+          }
+        }
+      }
+    },
+    "例如：晚餐吃什麼（平價版）": {
+      "localizations": {
+        "zh-Hant": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "例如：晚餐吃什麼（平價版）"
+          }
+        }
+      }
+    },
+    "保留副本並重建資料": {
+      "localizations": {
+        "zh-Hant": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "保留副本並重建資料"
+          }
+        }
+      }
+    },
+    "保留副本並重建？": {
+      "localizations": {
+        "zh-Hant": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "保留副本並重建？"
+          }
+        }
+      }
+    },
+    "保留原始資料副本": {
+      "localizations": {
+        "zh-Hant": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "保留原始資料副本"
+          }
+        }
+      }
+    },
+    "保留最近 100 次決定": {
+      "localizations": {
+        "zh-Hant": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "保留最近 100 次決定"
+          }
+        }
+      }
+    },
+    "傳給朋友看": {
+      "localizations": {
+        "zh-Hant": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "傳給朋友看"
+          }
+        }
+      }
+    },
+    "傳送 .mealspin 檔案，可透過 AirDrop、訊息或儲存到「檔案」。對方可在 App 的「我的清單」中匯入，或直接開啟收到的檔案。": {
+      "localizations": {
+        "zh-Hant": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "傳送 .mealspin 檔案，可透過 AirDrop、訊息或儲存到「檔案」。對方可在 App 的「我的清單」中匯入，或直接開啟收到的檔案。"
+          }
+        }
+      }
+    },
+    "儲存": {
+      "localizations": {
+        "zh-Hant": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "儲存"
+          }
+        }
+      }
+    },
+    "儲存失敗，這次變更尚未保存。": {
+      "localizations": {
+        "zh-Hant": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "儲存失敗，這次變更尚未保存。"
+          }
+        }
+      }
+    },
+    "先放進幾個想吃的，\n下一餐就不用再煩惱。": {
+      "localizations": {
+        "zh-Hant": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "先放進幾個想吃的，\n下一餐就不用再煩惱。"
+          }
+        }
+      }
+    },
+    "先為這份清單取個名字，再加入想吃的選項。": {
+      "localizations": {
+        "zh-Hant": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "先為這份清單取個名字，再加入想吃的選項。"
+          }
+        }
+      }
+    },
+    "全部參與": {
+      "localizations": {
+        "zh-Hant": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "全部參與"
+          }
+        }
+      }
+    },
+    "再轉一次": {
+      "localizations": {
+        "zh-Hant": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "再轉一次"
+          }
+        }
+      }
+    },
+    "分享": {
+      "localizations": {
+        "zh-Hant": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "分享"
+          }
+        }
+      }
+    },
+    "分享可匯入的清單檔案": {
+      "localizations": {
+        "zh-Hant": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "分享可匯入的清單檔案"
+          }
+        }
+      }
+    },
+    "分享文字清單": {
+      "localizations": {
+        "zh-Hant": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "分享文字清單"
+          }
+        }
+      }
+    },
+    "分享清單": {
+      "localizations": {
+        "zh-Hant": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "分享清單"
+          }
+        }
+      }
+    },
+    "切換清單，目前是%@": {
+      "localizations": {
+        "zh-Hant": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "切換清單，目前是%@"
+          }
+        }
+      }
+    },
+    "刪除": {
+      "localizations": {
+        "zh-Hant": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "刪除"
+          }
+        }
+      }
+    },
+    "刪除%@": {
+      "localizations": {
+        "zh-Hant": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "刪除%@"
+          }
+        }
+      }
+    },
+    "刪除「%@」？": {
+      "localizations": {
+        "zh-Hant": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "刪除「%@」？"
+          }
+        }
+      }
+    },
+    "刪除清單": {
+      "localizations": {
+        "zh-Hant": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "刪除清單"
+          }
+        }
+      }
+    },
+    "加入": {
+      "localizations": {
+        "zh-Hant": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "加入"
+          }
+        }
+      }
+    },
+    "加入想吃的選項": {
+      "localizations": {
+        "zh-Hant": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "加入想吃的選項"
+          }
+        }
+      }
+    },
+    "加入我的清單": {
+      "localizations": {
+        "zh-Hant": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "加入我的清單"
+          }
+        }
+      }
+    },
+    "匯入已有清單": {
+      "localizations": {
+        "zh-Hant": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "匯入已有清單"
+          }
+        }
+      }
+    },
+    "匯入會建立一份新清單，不會變更現有清單。": {
+      "localizations": {
+        "zh-Hant": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "匯入會建立一份新清單，不會變更現有清單。"
+          }
+        }
+      }
+    },
+    "匯入清單": {
+      "localizations": {
+        "zh-Hant": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "匯入清單"
+          }
+        }
+      }
+    },
+    "匯出原始資料副本": {
+      "localizations": {
+        "zh-Hant": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "匯出原始資料副本"
+          }
+        }
+      }
+    },
+    "原始資料副本": {
+      "localizations": {
+        "zh-Hant": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "原始資料副本"
+          }
+        }
+      }
+    },
+    "原始資料副本已保留在 App 中。請匯出到安全的位置；重建後仍可從首頁的「原始資料副本」開啟。": {
+      "localizations": {
+        "zh-Hant": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "原始資料副本已保留在 App 中。請匯出到安全的位置；重建後仍可從首頁的「原始資料副本」開啟。"
+          }
+        }
+      }
+    },
+    "原始資料已受保護。請先在首頁完成資料回復，再儲存變更。": {
+      "localizations": {
+        "zh-Hant": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "原始資料已受保護。請先在首頁完成資料回復，再儲存變更。"
+          }
+        }
+      }
+    },
+    "參與抽選": {
+      "localizations": {
+        "zh-Hant": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "參與抽選"
+          }
+        }
+      }
+    },
+    "參與抽選 · %@": {
+      "localizations": {
+        "zh-Hant": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "參與抽選 · %@"
+          }
+        }
+      }
+    },
+    "取消": {
+      "localizations": {
+        "zh-Hant": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "取消"
+          }
+        }
+      }
+    },
+    "取消讀取": {
+      "localizations": {
+        "zh-Hant": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "取消讀取"
+          }
+        }
+      }
+    },
+    "口袋名單等你填滿": {
+      "localizations": {
+        "zh-Hant": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "口袋名單等你填滿"
+          }
+        }
+      }
+    },
+    "只影響本次轉盤，不會刪除項目": {
+      "localizations": {
+        "zh-Hant": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "只影響本次轉盤，不會刪除項目"
+          }
+        }
+      }
+    },
+    "只有副本成功保存後才會重建。請確認你願意以範例清單重新開始。": {
+      "localizations": {
+        "zh-Hant": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "只有副本成功保存後才會重建。請確認你願意以範例清單重新開始。"
+          }
+        }
+      }
+    },
+    "可貼上多行文字，一行一個選項；儲存時也會一起加入。": {
+      "localizations": {
+        "zh-Hant": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "可貼上多行文字，一行一個選項；儲存時也會一起加入。"
+          }
+        }
+      }
+    },
+    "吃什麼清單": {
+      "localizations": {
+        "zh-Hant": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "吃什麼清單"
+          }
+        }
+      }
+    },
+    "咖啡": {
+      "localizations": {
+        "zh-Hant": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "咖啡"
+          }
+        }
+      }
+    },
+    "外帶": {
+      "localizations": {
+        "zh-Hant": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "外帶"
+          }
+        }
+      }
+    },
+    "完成": {
+      "localizations": {
+        "zh-Hant": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "完成"
+          }
+        }
+      }
+    },
+    "完成排序": {
+      "localizations": {
+        "zh-Hant": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "完成排序"
+          }
+        }
+      }
+    },
+    "少一點猶豫，多一點好吃的。": {
+      "localizations": {
+        "zh-Hant": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "少一點猶豫，多一點好吃的。"
+          }
+        }
+      }
+    },
+    "尚未儲存的內容將不會保留。": {
+      "localizations": {
+        "zh-Hant": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "尚未儲存的內容將不會保留。"
+          }
+        }
+      }
+    },
+    "尚未抽選": {
+      "localizations": {
+        "zh-Hant": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "尚未抽選"
+          }
+        }
+      }
+    },
+    "已加入 %lld 個選項": {
+      "localizations": {
+        "zh-Hant": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "已加入 %lld 個選項"
+          }
+        }
+      }
+    },
+    "已收到清單，完成目前操作後即可預覽匯入。": {
+      "localizations": {
+        "zh-Hant": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "已收到清單，完成目前操作後即可預覽匯入。"
+          }
+        }
+      }
+    },
+    "已有同名清單。匯入會建立另一份副本，不會覆蓋原本內容。": {
+      "localizations": {
+        "zh-Hant": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "已有同名清單。匯入會建立另一份副本，不會覆蓋原本內容。"
+          }
+        }
+      }
+    },
+    "建立第一份清單": {
+      "localizations": {
+        "zh-Hant": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "建立第一份清單"
+          }
+        }
+      }
+    },
+    "從餐廳、料理到小吃，都可以加入": {
+      "localizations": {
+        "zh-Hant": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "從餐廳、料理到小吃，都可以加入"
+          }
+        }
+      }
+    },
+    "想吃什麼？": {
+      "localizations": {
+        "zh-Hant": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "想吃什麼？"
+          }
+        }
+      }
+    },
+    "我的清單": {
+      "localizations": {
+        "zh-Hant": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "我的清單"
+          }
+        }
+      }
+    },
+    "把愛吃的餐廳和食物放進清單，\n猶豫的時候，讓轉盤幫你選。": {
+      "localizations": {
+        "zh-Hant": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "把愛吃的餐廳和食物放進清單，\n猶豫的時候，讓轉盤幫你選。"
+          }
+        }
+      }
+    },
+    "抽選紀錄": {
+      "localizations": {
+        "zh-Hant": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "抽選紀錄"
+          }
+        }
+      }
+    },
+    "排序": {
+      "localizations": {
+        "zh-Hant": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "排序"
+          }
+        }
+      }
+    },
+    "搜尋清單": {
+      "localizations": {
+        "zh-Hant": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "搜尋清單"
+          }
+        }
+      }
+    },
+    "放棄修改": {
+      "localizations": {
+        "zh-Hant": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "放棄修改"
+          }
+        }
+      }
+    },
+    "新增清單": {
+      "localizations": {
+        "zh-Hant": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "新增清單"
+          }
+        }
+      }
+    },
+    "新增餐廳或食物": {
+      "localizations": {
+        "zh-Hant": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "新增餐廳或食物"
+          }
+        }
+      }
+    },
+    "早餐": {
+      "localizations": {
+        "zh-Hant": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "早餐"
+          }
+        }
+      }
+    },
+    "昨天": {
+      "localizations": {
+        "zh-Hant": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "昨天"
+          }
+        }
+      }
+    },
+    "最近吃了什麼": {
+      "localizations": {
+        "zh-Hant": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "最近吃了什麼"
+          }
+        }
+      }
+    },
+    "本次 %lld 項參與 · %lld 項暫停，未刪除": {
+      "localizations": {
+        "zh-Hant": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "本次 %1$lld 項參與 · %2$lld 項暫停，未刪除"
+          }
+        }
+      }
+    },
+    "本次不參與，仍保留在清單": {
+      "localizations": {
+        "zh-Hant": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "本次不參與，仍保留在清單"
+          }
+        }
+      }
+    },
+    "本次參與項目": {
+      "localizations": {
+        "zh-Hant": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "本次參與項目"
+          }
+        }
+      }
+    },
+    "本次暫停": {
+      "localizations": {
+        "zh-Hant": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "本次暫停"
+          }
+        }
+      }
+    },
+    "查看、建立或管理所有清單": {
+      "localizations": {
+        "zh-Hant": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "查看、建立或管理所有清單"
+          }
+        }
+      }
+    },
+    "檔案太大，請選擇小於 1 MB 的清單檔案。": {
+      "localizations": {
+        "zh-Hant": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "檔案太大，請選擇小於 1 MB 的清單檔案。"
+          }
+        }
+      }
+    },
+    "正在挑選你的下一餐": {
+      "localizations": {
+        "zh-Hant": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "正在挑選你的下一餐"
+          }
+        }
+      }
+    },
+    "正在讀取清單⋯": {
+      "localizations": {
+        "zh-Hant": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "正在讀取清單⋯"
+          }
+        }
+      }
+    },
+    "每個選項機率相同 · 只儲存在你的手機": {
+      "localizations": {
+        "zh-Hant": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "每個選項機率相同 · 只儲存在你的手機"
+          }
+        }
+      }
+    },
+    "每個選項需在 200 個字以內。": {
+      "localizations": {
+        "zh-Hant": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "每個選項需在 200 個字以內。"
+          }
+        }
+      }
+    },
+    "每次轉盤的決定都會保存在這裡。": {
+      "localizations": {
+        "zh-Hant": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "每次轉盤的決定都會保存在這裡。"
+          }
+        }
+      }
+    },
+    "沒有參與抽選的項目": {
+      "localizations": {
+        "zh-Hant": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "沒有參與抽選的項目"
+          }
+        }
+      }
+    },
+    "清單名稱": {
+      "localizations": {
+        "zh-Hant": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "清單名稱"
+          }
+        }
+      }
+    },
+    "清單名稱不可空白，且需在 120 個字以內。": {
+      "localizations": {
+        "zh-Hant": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "清單名稱不可空白，且需在 120 個字以內。"
+          }
+        }
+      }
+    },
+    "清單與食物選項仍會保留。": {
+      "localizations": {
+        "zh-Hant": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "清單與食物選項仍會保留。"
+          }
+        }
+      }
+    },
+    "清單資訊": {
+      "localizations": {
+        "zh-Hant": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "清單資訊"
+          }
+        }
+      }
+    },
+    "清除所有抽選紀錄？": {
+      "localizations": {
+        "zh-Hant": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "清除所有抽選紀錄？"
+          }
+        }
+      }
+    },
+    "清除所有紀錄": {
+      "localizations": {
+        "zh-Hant": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "清除所有紀錄"
+          }
+        }
+      }
+    },
+    "準備好開動了嗎？": {
+      "localizations": {
+        "zh-Hant": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "準備好開動了嗎？"
+          }
+        }
+      }
+    },
+    "為了保留原始資料，目前無法新增、匯入或修改清單。關閉提醒或重開 App 都不會解除保護。": {
+      "localizations": {
+        "zh-Hant": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "為了保留原始資料，目前無法新增、匯入或修改清單。關閉提醒或重開 App 都不會解除保護。"
+          }
+        }
+      }
+    },
+    "無法保留原始資料副本。原始資料仍受保護，尚未重建。": {
+      "localizations": {
+        "zh-Hant": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "無法保留原始資料副本。原始資料仍受保護，尚未重建。"
+          }
+        }
+      }
+    },
+    "無法儲存": {
+      "localizations": {
+        "zh-Hant": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "無法儲存"
+          }
+        }
+      }
+    },
+    "無法分享": {
+      "localizations": {
+        "zh-Hant": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "無法分享"
+          }
+        }
+      }
+    },
+    "無法匯入": {
+      "localizations": {
+        "zh-Hant": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "無法匯入"
+          }
+        }
+      }
+    },
+    "無法讀取已儲存的清單。原始資料已受保護，請重新讀取或保留副本後重建。": {
+      "localizations": {
+        "zh-Hant": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "無法讀取已儲存的清單。原始資料已受保護，請重新讀取或保留副本後重建。"
+          }
+        }
+      }
+    },
+    "無法讀取清單": {
+      "localizations": {
+        "zh-Hant": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "無法讀取清單"
+          }
+        }
+      }
+    },
+    "犒賞": {
+      "localizations": {
+        "zh-Hant": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "犒賞"
+          }
+        }
+      }
+    },
+    "甜點": {
+      "localizations": {
+        "zh-Hant": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "甜點"
+          }
+        }
+      }
+    },
+    "目前清單": {
+      "localizations": {
+        "zh-Hant": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "目前清單"
+          }
+        }
+      }
+    },
+    "知道了": {
+      "localizations": {
+        "zh-Hant": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "知道了"
+          }
+        }
+      }
+    },
+    "確認重建": {
+      "localizations": {
+        "zh-Hant": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "確認重建"
+          }
+        }
+      }
+    },
+    "管理%@": {
+      "localizations": {
+        "zh-Hant": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "管理%@"
+          }
+        }
+      }
+    },
+    "管理紀錄": {
+      "localizations": {
+        "zh-Hant": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "管理紀錄"
+          }
+        }
+      }
+    },
+    "給同樣使用這個 App 的人": {
+      "localizations": {
+        "zh-Hant": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "給同樣使用這個 App 的人"
+          }
+        }
+      }
+    },
+    "編輯": {
+      "localizations": {
+        "zh-Hant": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "編輯"
+          }
+        }
+      }
+    },
+    "編輯清單": {
+      "localizations": {
+        "zh-Hant": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "編輯清單"
+          }
+        }
+      }
+    },
+    "編輯選項": {
+      "localizations": {
+        "zh-Hant": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "編輯選項"
+          }
+        }
+      }
+    },
+    "繼續編輯": {
+      "localizations": {
+        "zh-Hant": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "繼續編輯"
+          }
+        }
+      }
+    },
+    "美味決定中⋯": {
+      "localizations": {
+        "zh-Hant": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "美味決定中⋯"
+          }
+        }
+      }
+    },
+    "美味的紀錄，從下一餐開始": {
+      "localizations": {
+        "zh-Hant": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "美味的紀錄，從下一餐開始"
+          }
+        }
+      }
+    },
+    "要放棄這次修改嗎？": {
+      "localizations": {
+        "zh-Hant": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "要放棄這次修改嗎？"
+          }
+        }
+      }
+    },
+    "讓轉盤想一下⋯": {
+      "localizations": {
+        "zh-Hant": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "讓轉盤想一下⋯"
+          }
+        }
+      }
+    },
+    "資料儲存提醒": {
+      "localizations": {
+        "zh-Hant": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "資料儲存提醒"
+          }
+        }
+      }
+    },
+    "資料需要回復": {
+      "localizations": {
+        "zh-Hant": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "資料需要回復"
+          }
+        }
+      }
+    },
+    "轉一下，決定吃什麼": {
+      "localizations": {
+        "zh-Hant": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "轉一下，決定吃什麼"
+          }
+        }
+      }
+    },
+    "轉動中": {
+      "localizations": {
+        "zh-Hant": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "轉動中"
+          }
+        }
+      }
+    },
+    "轉盤還空著呢": {
+      "localizations": {
+        "zh-Hant": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "轉盤還空著呢"
+          }
+        }
+      }
+    },
+    "這不是有效的「今天吃什麼」清單檔案。": {
+      "localizations": {
+        "zh-Hant": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "這不是有效的「今天吃什麼」清單檔案。"
+          }
+        }
+      }
+    },
+    "這些副本保留重建前的原始內容，可能仍需修復才能讀取。它們與 App 一起保存在此裝置，刪除 App 也會移除副本，請另存到安全的位置。": {
+      "localizations": {
+        "zh-Hant": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "這些副本保留重建前的原始內容，可能仍需修復才能讀取。它們與 App 一起保存在此裝置，刪除 App 也會移除副本，請另存到安全的位置。"
+          }
+        }
+      }
+    },
+    "這些選項已經在清單裡囉。": {
+      "localizations": {
+        "zh-Hant": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "這些選項已經在清單裡囉。"
+          }
+        }
+      }
+    },
+    "這份清單使用較新的格式，請更新 App 後再試。": {
+      "localizations": {
+        "zh-Hant": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "這份清單使用較新的格式，請更新 App 後再試。"
+          }
+        }
+      }
+    },
+    "這份清單尚未加入食物。": {
+      "localizations": {
+        "zh-Hant": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "這份清單尚未加入食物。"
+          }
+        }
+      }
+    },
+    "這份清單與其中的選項將被移除，抽選紀錄會保留。": {
+      "localizations": {
+        "zh-Hant": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "這份清單與其中的選項將被移除，抽選紀錄會保留。"
+          }
+        }
+      }
+    },
+    "選擇參與項目": {
+      "localizations": {
+        "zh-Hant": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "選擇參與項目"
+          }
+        }
+      }
+    },
+    "選擇本次參與項目，目前%lld個參與，%lld個暫停": {
+      "localizations": {
+        "zh-Hant": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "選擇本次參與項目，目前%1$lld個參與，%2$lld個暫停"
+          }
+        }
+      }
+    },
+    "選項機率相同。空白與重複名稱會在儲存時自動整理。": {
+      "localizations": {
+        "zh-Hant": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "選項機率相同。空白與重複名稱會在儲存時自動整理。"
+          }
+        }
+      }
+    },
+    "選項預覽": {
+      "localizations": {
+        "zh-Hant": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "選項預覽"
+          }
+        }
+      }
+    },
+    "還沒有選項": {
+      "localizations": {
+        "zh-Hant": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "還沒有選項"
+          }
+        }
+      }
+    },
+    "重建會先保留目前原始檔案，再以範例清單開始。原始清單與抽選紀錄不會自動還原。若保留副本或儲存失敗，資料仍維持保護狀態。": {
+      "localizations": {
+        "zh-Hant": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "重建會先保留目前原始檔案，再以範例清單開始。原始清單與抽選紀錄不會自動還原。若保留副本或儲存失敗，資料仍維持保護狀態。"
+          }
+        }
+      }
+    },
+    "重新讀取資料": {
+      "localizations": {
+        "zh-Hant": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "重新讀取資料"
+          }
+        }
+      }
+    },
+    "項目都還在清單裡。\n重新勾選幾個，就能繼續轉動。": {
+      "localizations": {
+        "zh-Hant": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "項目都還在清單裡。\n重新勾選幾個，就能繼續轉動。"
+          }
+        }
+      }
+    },
+    "食物轉盤，%lld 個項目參與抽選，%lld 個暫停": {
+      "localizations": {
+        "zh-Hant": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "食物轉盤，%1$lld 個項目參與抽選，%2$lld 個暫停"
+          }
+        }
+      }
+    },
+    "餐廳或食物": {
+      "localizations": {
+        "zh-Hant": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "餐廳或食物"
+          }
+        }
+      }
+    },
+    "餐點": {
+      "localizations": {
+        "zh-Hant": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "餐點"
+          }
+        }
+      }
+    },
+    "點一下取消勾選即可暫時排除，不會刪除項目。切換清單仍保留本次設定；重開 App 會恢復全部參與。分享與編輯仍保留完整清單。": {
+      "localizations": {
+        "zh-Hant": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "點一下取消勾選即可暫時排除，不會刪除項目。切換清單仍保留本次設定；重開 App 會恢復全部參與。分享與編輯仍保留完整清單。"
+          }
+        }
+      }
+    },
+    "點選清單即可切換，按 ⋯ 管理名稱與選項。": {
+      "localizations": {
+        "zh-Hant": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "點選清單即可切換，按 ⋯ 管理名稱與選項。"
+          }
+        }
+      }
+    }
+  },
+  "version": "1.0"
+}

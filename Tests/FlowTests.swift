@@ -1,8 +1,8 @@
 import XCTest
 
 final class FlowTests: XCTestCase {
-    @MainActor private func screenshot(_ name: String, app: XCUIApplication) {
-        let attachment = XCTAttachment(screenshot: app.screenshot())
+    @MainActor private func screenshot(_ name: String) {
+        let attachment = XCTAttachment(screenshot: XCUIScreen.main.screenshot())
         attachment.name = name
         attachment.lifetime = .keepAlways
         add(attachment)
@@ -14,15 +14,15 @@ final class FlowTests: XCTestCase {
         app.launch()
         XCTAssertTrue(app.buttons["spinButton"].waitForExistence(timeout: 10))
         XCTAssertTrue(app.buttons["spinButton"].isHittable, "主按鈕不需捲動畫面即可操作")
-        screenshot("01-Home", app: app)
+        screenshot("01-Home")
         app.buttons["listSelector"].tap()
         XCTAssertTrue(app.buttons["list-早餐吃什麼"].waitForExistence(timeout: 5))
-        screenshot("02-Lists", app: app)
+        screenshot("02-Lists")
         app.buttons["list-早餐吃什麼"].tap()
         XCTAssertTrue(app.buttons["listSelector"].label.contains("早餐吃什麼"))
         app.buttons["編輯選項"].tap()
         XCTAssertTrue(app.textFields["listNameField"].waitForExistence(timeout: 5))
-        screenshot("03-Editor", app: app)
+        screenshot("03-Editor")
         app.buttons["取消"].tap()
         app.buttons["新增清單"].firstMatch.tap()
         let name = app.textFields["listNameField"]
@@ -40,7 +40,7 @@ final class FlowTests: XCTestCase {
         let result = app.staticTexts["spinResult"].firstMatch
         expectation(for: NSPredicate(format: "label CONTAINS %@", "測試蛋餅"), evaluatedWith: result)
         waitForExpectations(timeout: 15)
-        screenshot("04-Result", app: app)
+        screenshot("04-Result")
         app.terminate()
         app.launchArguments = ["--ui-testing"]
         app.launch()
@@ -49,7 +49,7 @@ final class FlowTests: XCTestCase {
         XCTAssertTrue(selector.label.contains("UI早餐測試"), "重開後保留上次使用的清單")
         app.buttons["抽選紀錄"].tap()
         XCTAssertTrue(app.staticTexts["測試蛋餅"].waitForExistence(timeout: 3))
-        screenshot("05-History", app: app)
+        screenshot("05-History")
     }
 
     @MainActor func testDiscardAndEmptyList() {
@@ -94,7 +94,7 @@ final class FlowTests: XCTestCase {
         app.open(file)
         XCTAssertTrue(app.buttons["confirmImport"].waitForExistence(timeout: 5))
         XCTAssertTrue(app.staticTexts["起司蛋餅"].exists)
-        screenshot("06-ImportPreview", app: app)
+        screenshot("06-ImportPreview")
         app.buttons["取消"].tap()
         XCTAssertEqual(app.buttons["listSelector"].label, original)
         app.open(file)
@@ -117,7 +117,7 @@ final class FlowTests: XCTestCase {
         XCTAssertTrue(share.waitForExistence(timeout: 5))
         share.tap()
         XCTAssertTrue(app.buttons["shareListText"].waitForExistence(timeout: 5))
-        screenshot("07-SharingOptions", app: app)
+        screenshot("07-SharingOptions")
         app.buttons["shareListFile"].tap()
         let sharingService = XCUIApplication(bundleIdentifier: "com.apple.SharingUIService")
         let actions = NSPredicate(format: "label BEGINSWITH %@ OR label BEGINSWITH %@ OR label == %@ OR label == %@ OR label == %@", "儲存", "Save to Files", "Copy", "拷貝", "複製")
@@ -141,13 +141,13 @@ final class FlowTests: XCTestCase {
         XCTAssertTrue(app.buttons["participation-滷肉飯"].waitForExistence(timeout: 5))
         for food in foods.dropFirst() { app.buttons["participation-\(food)"].tap() }
         XCTAssertEqual(app.buttons.matching(NSPredicate(format: "identifier BEGINSWITH %@", "participation-")).count, 6)
-        screenshot("09-TemporaryParticipation", app: app)
+        screenshot("09-TemporaryParticipation")
         app.buttons["完成"].tap()
         XCTAssertTrue(app.staticTexts["participationStatus"].label.contains("本次 1 項參與"))
         app.buttons["spinButton"].tap()
         expectation(for: NSPredicate(format: "label == %@", "滷肉飯"), evaluatedWith: app.staticTexts["spinResult"].firstMatch)
         waitForExpectations(timeout: 15)
-        screenshot("10-FilteredWheel", app: app)
+        screenshot("10-FilteredWheel")
         app.buttons["listSelector"].tap()
         app.buttons["list-早餐吃什麼"].tap()
         app.buttons["listSelector"].tap()
@@ -168,5 +168,30 @@ final class FlowTests: XCTestCase {
         app.launch()
         app.buttons["participationOptions"].tap()
         for food in foods { XCTAssertEqual(app.buttons["participation-\(food)"].value as? String, "參與抽選") }
+    }
+    @MainActor func testRecoveryRebuildRetainsExportAfterRelaunch() {
+        let app = XCUIApplication()
+        app.launchArguments = ["--ui-testing", "--reset-test-data", "--corrupt-test-data"]
+        app.launch()
+        XCTAssertTrue(app.alerts.firstMatch.waitForExistence(timeout: 5))
+        app.alerts.buttons["知道了"].tap()
+        XCTAssertTrue(app.buttons["reloadData"].waitForExistence(timeout: 5))
+        app.buttons["backupData"].tap()
+        XCTAssertTrue(app.buttons["exportBackup"].waitForExistence(timeout: 5))
+        app.buttons["rebuildData"].tap()
+        if app.buttons["取消"].exists { app.buttons["取消"].tap() }
+        else { app.otherElements["PopoverDismissRegion"].tap() }
+        XCTAssertTrue(app.buttons["reloadData"].exists)
+        app.buttons["rebuildData"].tap()
+        app.buttons["確認重建"].tap()
+        XCTAssertTrue(app.buttons["spinButton"].waitForExistence(timeout: 5))
+        XCTAssertTrue(app.buttons["recoveryBackups"].exists)
+        app.terminate()
+        app.launchArguments = ["--ui-testing"]
+        app.launch()
+        XCTAssertTrue(app.buttons["recoveryBackups"].waitForExistence(timeout: 5))
+        app.buttons["recoveryBackups"].tap()
+        XCTAssertTrue(app.buttons.matching(NSPredicate(format: "label CONTAINS %@", "匯出原始資料副本")).firstMatch.waitForExistence(timeout: 5))
+        screenshot("Recovery-BackupsAfterRelaunch")
     }
 }

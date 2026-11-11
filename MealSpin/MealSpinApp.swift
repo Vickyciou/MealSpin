@@ -6,8 +6,14 @@ import SwiftUI
         let args = ProcessInfo.processInfo.arguments
         if args.contains("--ui-testing") {
             let file = URL.documentsDirectory.appending(path: "ui-tests.json")
-            if args.contains("--reset-test-data") { try? FileManager.default.removeItem(at: file) }
-            _store = State(initialValue: MealStore(file: file))
+            let backups = URL.documentsDirectory.appending(path: "UITest Recovery", directoryHint: .isDirectory)
+            if args.contains("--reset-test-data") {
+                try? FileManager.default.removeItem(at: file)
+                try? FileManager.default.removeItem(at: backups)
+                UserDefaults.standard.removeObject(forKey: "selectedFoodList")
+            }
+            if args.contains("--corrupt-test-data") { try? Data("invalid test data".utf8).write(to: file) }
+            _store = State(initialValue: MealStore(file: file, backupDirectory: backups))
         } else {
             _store = State(initialValue: MealStore())
         }

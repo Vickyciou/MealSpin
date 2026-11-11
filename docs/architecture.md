@@ -40,8 +40,11 @@ flowchart TD
 | 編輯草稿 | `ListEditor` 的區域狀態 | 儲存成功才更新 store；放棄修改不寫入 |
 | 轉盤角度與目前結果 | `WheelScreen` 的區域狀態 | 參與項目改變時清除角度與目前結果；歷史紀錄另外由 store 保存 |
 | 待預覽的外部清單 | `ContentView.pendingImport` | 單一暫存值，首頁沒有 sheet 且未抽選時才呈現預覽 |
+| 讀取失敗與回復副本 | `MealStore.loadState`；`Documents/MealSpin Recovery` | 提醒關閉不解除寫入保護；副本保留至 App 被刪除，可從首頁另行匯出 |
 
-本機檔案尚不存在時，`MealStore` 建立並儲存三份範例清單。已有檔案卻解碼失敗時，初始化會提供錯誤訊息，保留原始檔案，不自動重設為範例清單；這並非後續寫入的唯讀保護。
+`MealStore.LoadState` 區分首次建立、已載入與需要回復。本機檔案不存在時，store 建立並儲存三份範例清單。既有檔案讀取或解碼失敗時，store 進入回復狀態，首頁持續顯示回復操作。`commit(lists:history:)` 在這個狀態拒絕 `save`、`delete`、`record` 與 `clearHistory`，回傳 `false` 並保留原始 bytes；關閉 `errorMessage` 不改變寫入權限。
+
+`reload()` 只有成功讀取並解碼後才恢復正常寫入。`preserveOriginal()` 將當下原檔原子寫入 `Documents/MealSpin Recovery/meals-<UUID>.original.json`，讀回核對 bytes 後提供匯出。使用者確認 `rebuild()` 時，store 先建立一份新的副本，再原子寫入範例清單與空紀錄。備份或重建寫入失敗都維持回復狀態。已建立的副本不會因重建失敗而刪除；重建後及重新啟動後，仍可由首頁「原始資料副本」匯出。這些副本可能需要修復，不能當作 `.mealspin` 清單直接匯入。
 
 `commit(lists:history:)` 先以 `.atomic` 寫入，再更新記憶體中的清單與紀錄。寫入失敗會回報 `errorMessage`，保留既有的清單與紀錄狀態。成功更新後，會移除已不存在清單或食物所對應的暫停設定。
 
@@ -112,5 +115,6 @@ flowchart TD
 - [ContentView.swift](../MealSpin/ContentView.swift)、[ListLibrary.swift](../MealSpin/ListLibrary.swift)：畫面協調與匯入入口。
 - [Models.swift](../MealSpin/Models.swift)：資料保存、抽選幾何與分享格式。
 - [WheelView.swift](../MealSpin/WheelView.swift)、[ListEditor.swift](../MealSpin/ListEditor.swift)、[HistoryView.swift](../MealSpin/HistoryView.swift)：抽選與編輯／紀錄行為。
+- [RecoveryView.swift](../MealSpin/RecoveryView.swift)：資料回復與副本匯出。
 - [ListSharing.swift](../MealSpin/ListSharing.swift)、[Info.plist](../MealSpin/Info.plist)：檔案讀寫與系統型別註冊。
 - [ModelChecks.swift](../Tests/ModelChecks.swift)、[FlowTests.swift](../Tests/FlowTests.swift)：資料契約與操作流程檢查；執行方式及實機驗證範圍見 [開發說明](DEVELOPMENT.md)。

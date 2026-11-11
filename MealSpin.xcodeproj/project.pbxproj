@@ -7,6 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+        B00000000000000000000001 /* RecoveryView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B00000000000000000000002; };
+        B00000000000000000000003 /* Localizable.xcstrings in Resources */ = {isa = PBXBuildFile; fileRef = B00000000000000000000004; };
 		A8A0ADDF7E0B4B9288C7C1C0 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 3AA8CFCC168840DA88E480C8 /* Assets.xcassets */; };
 		0B8DD7B037074B149A3125AF /* Models.swift in Sources */ = {isa = PBXBuildFile; fileRef = A1529DCCC9C54BD69AB64E30 /* Models.swift */; };
 		4BE57AD2E01E4278B6FCD9C6 /* ListSharing.swift in Sources */ = {isa = PBXBuildFile; fileRef = F49AB9644DF6489A928C5B52 /* ListSharing.swift */; };
@@ -30,6 +32,8 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+        B00000000000000000000002 /* RecoveryView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RecoveryView.swift; sourceTree = "<group>"; };
+        B00000000000000000000004 /* Localizable.xcstrings */ = {isa = PBXFileReference; lastKnownFileType = text.json.xcstrings; path = Localizable.xcstrings; sourceTree = "<group>"; };
 		3AA8CFCC168840DA88E480C8 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		22A0F8374C1749FB9BA775A7 /* Tests/FlowTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Tests/FlowTests.swift; sourceTree = SOURCE_ROOT; };
 		3C8D899730A199F40097450D /* MealSpinUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = MealSpinUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -58,7 +62,9 @@
 		2BC93102DD5F4CEB9884A825 /* MealSpin */ = {
 			isa = PBXGroup;
 			children = (
-				3AA8CFCC168840DA88E480C8 /* Assets.xcassets */,
+                B00000000000000000000002 /* RecoveryView.swift */,
+                B00000000000000000000004 /* Localizable.xcstrings */,
+                3AA8CFCC168840DA88E480C8 /* Assets.xcassets */,
 				F49AB9644DF6489A928C5B52 /* ListSharing.swift */,
 				E0894E344DFF4DD98EB1A1C2 /* HistoryView.swift */,
 				C6A06F3D1DD14A05B468B172 /* ListEditor.swift */,
@@ -166,7 +172,8 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				A8A0ADDF7E0B4B9288C7C1C0 /* Assets.xcassets in Resources */,
+				B00000000000000000000003 /* Localizable.xcstrings in Resources */,
+                A8A0ADDF7E0B4B9288C7C1C0 /* Assets.xcassets in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -177,7 +184,8 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				4BE57AD2E01E4278B6FCD9C6 /* ListSharing.swift in Sources */,
+                B00000000000000000000001 /* RecoveryView.swift in Sources */,
+                4BE57AD2E01E4278B6FCD9C6 /* ListSharing.swift in Sources */,
 				80396246FAAA42C096232BC0 /* HistoryView.swift in Sources */,
 				F73D08FD871A4EE28B9DA2C8 /* ListEditor.swift in Sources */,
 				9098BDEB1E8045ECB8421ABF /* ListLibrary.swift in Sources */,
@@ -234,6 +242,7 @@
 				IPHONEOS_DEPLOYMENT_TARGET = 17.0;
 				SDKROOT = iphoneos;
 				SWIFT_VERSION = 5.0;
+                SWIFT_EMIT_LOC_STRINGS = YES;
 			};
 			name = Release;
 		};
@@ -244,6 +253,7 @@
 				IPHONEOS_DEPLOYMENT_TARGET = 17.0;
 				SDKROOT = iphoneos;
 				SWIFT_VERSION = 5.0;
+                SWIFT_EMIT_LOC_STRINGS = YES;
 			};
 			name = Debug;
 		};
@@ -256,6 +266,7 @@
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SDKROOT = iphoneos;
 				SWIFT_VERSION = 5.0;
+                SWIFT_EMIT_LOC_STRINGS = YES;
 				TARGETED_DEVICE_FAMILY = "1,2";
 				TEST_TARGET_NAME = MealSpin;
 			};
@@ -290,6 +301,7 @@
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SDKROOT = iphoneos;
 				SWIFT_VERSION = 5.0;
+                SWIFT_EMIT_LOC_STRINGS = YES;
 				TARGETED_DEVICE_FAMILY = "1,2";
 				TEST_TARGET_NAME = MealSpin;
 			};

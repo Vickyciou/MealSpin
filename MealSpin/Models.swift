@@ -26,46 +26,137 @@ struct SavedMeals: Codable {
 }
 
 @MainActor @Observable final class MealStore {
+    enum LoadState: Equatable {
+        case firstLaunch, loaded, recoveryRequired(String)
+    }
+
     private(set) var lists: [FoodList] = []
     private(set) var history: [MealDecision] = []
+    private(set) var loadState: LoadState = .firstLaunch
+    private(set) var backupURL: URL?
+    private(set) var backups: [URL] = []
     var errorMessage: String?
-    // Session-only choices: never encoded, exported, or used to delete food.
     private(set) var temporaryExclusions: [UUID: Set<String>] = [:]
     private let file: URL
+    private let backupDirectory: URL
+    private let writeData: (Data, URL) throws -> Void
 
-    init(file: URL? = nil) {
+    var needsRecovery: Bool {
+        if case .recoveryRequired = loadState { return true }
+        return false
+    }
+    var loadFailure: String? {
+        if case .recoveryRequired(let message) = loadState { return message }
+        return nil
+    }
+
+    init(file: URL? = nil, backupDirectory: URL? = nil,
+         writeData: @escaping (Data, URL) throws -> Void = { try $0.write(to: $1, options: .atomic) }) {
         self.file = file ?? URL.documentsDirectory.appending(path: "meals.json")
-        guard FileManager.default.fileExists(atPath: self.file.path) else {
-            lists = FoodList.samples
-            _ = commit(lists: lists, history: [])
-            return
-        }
+        self.backupDirectory = backupDirectory ?? self.file.deletingLastPathComponent().appending(path: "MealSpin Recovery", directoryHint: .isDirectory)
+        self.writeData = writeData
         do {
-            let saved = try JSONDecoder().decode(SavedMeals.self, from: Data(contentsOf: self.file))
+            let data = try Data(contentsOf: self.file)
+            let saved = try JSONDecoder().decode(SavedMeals.self, from: data)
             lists = saved.lists
             history = saved.history
+            loadState = .loaded
         } catch {
-            errorMessage = "無法讀取已儲存的清單，請保留原始資料後再試一次。\n\(error.localizedDescription)"
+            if (error as NSError).domain == NSCocoaErrorDomain,
+               (error as NSError).code == NSFileReadNoSuchFileError {
+                lists = FoodList.samples
+                _ = commit(lists: lists, history: [])
+            } else {
+                protect(error)
+            }
+        }
+        refreshBackups()
+    }
+
+    private func refreshBackups() {
+        backups = ((try? FileManager.default.contentsOfDirectory(at: backupDirectory, includingPropertiesForKeys: [.creationDateKey])) ?? [])
+            .filter { $0.lastPathComponent.hasPrefix("meals-") && $0.lastPathComponent.hasSuffix(".original.json") }
+            .sorted { lhs, rhs in
+                let left = (try? lhs.resourceValues(forKeys: [.creationDateKey]).creationDate) ?? .distantPast
+                let right = (try? rhs.resourceValues(forKeys: [.creationDateKey]).creationDate) ?? .distantPast
+                return left > right
+            }
+    }
+
+    private func protect(_ error: Error) {
+        let message = String(localized: "無法讀取已儲存的清單。原始資料已受保護，請重新讀取或保留副本後重建。") + "\n" + error.localizedDescription
+        loadState = .recoveryRequired(message)
+        errorMessage = message
+    }
+
+    @discardableResult func reload() -> Bool {
+        do {
+            let saved = try JSONDecoder().decode(SavedMeals.self, from: Data(contentsOf: file))
+            apply(lists: saved.lists, history: saved.history)
+            loadState = .loaded
+            errorMessage = nil
+            return true
+        } catch {
+            protect(error)
+            return false
         }
     }
 
+    @discardableResult func preserveOriginal() -> URL? {
+        guard needsRecovery else { return nil }
+        do {
+            let data = try Data(contentsOf: file)
+            try FileManager.default.createDirectory(at: backupDirectory, withIntermediateDirectories: true)
+            let backup = backupDirectory.appending(path: "meals-\(UUID().uuidString).original.json")
+            try data.write(to: backup, options: .atomic)
+            guard try Data(contentsOf: backup) == data else { throw CocoaError(.fileReadCorruptFile) }
+            backupURL = backup
+            refreshBackups()
+            errorMessage = nil
+            return backup
+        } catch {
+            errorMessage = String(localized: "無法保留原始資料副本。原始資料仍受保護，尚未重建。") + "\n" + error.localizedDescription
+            return nil
+        }
+    }
+
+    @discardableResult func rebuild() -> Bool {
+        guard needsRecovery, preserveOriginal() != nil else { return false }
+        guard write(lists: FoodList.samples, history: []) else { return false }
+        loadState = .loaded
+        errorMessage = nil
+        return true
+    }
+
     private func commit(lists: [FoodList], history: [MealDecision]) -> Bool {
+        guard !needsRecovery else {
+            errorMessage = String(localized: "原始資料已受保護。請先在首頁完成資料回復，再儲存變更。")
+            return false
+        }
+        return write(lists: lists, history: history)
+    }
+
+    private func write(lists: [FoodList], history: [MealDecision]) -> Bool {
         do {
             let data = try JSONEncoder().encode(SavedMeals(lists: lists, history: history))
-            try data.write(to: file, options: .atomic)
-            self.lists = lists
-            self.history = history
-            let current = Dictionary(lists.map { ($0.id, Set($0.items)) }, uniquingKeysWith: { _, latest in latest })
-            temporaryExclusions = temporaryExclusions.reduce(into: [:]) { result, entry in
-                if let names = current[entry.key] {
-                    let remaining = entry.value.intersection(names)
-                    if !remaining.isEmpty { result[entry.key] = remaining }
-                }
-            }
+            try writeData(data, file)
+            apply(lists: lists, history: history)
             return true
         } catch {
-            errorMessage = "儲存失敗，這次變更尚未保存。\n\(error.localizedDescription)"
+            errorMessage = String(localized: "儲存失敗，這次變更尚未保存。") + "\n" + error.localizedDescription
             return false
+        }
+    }
+
+    private func apply(lists: [FoodList], history: [MealDecision]) {
+        self.lists = lists
+        self.history = history
+        let current = Dictionary(lists.map { ($0.id, Set($0.items)) }, uniquingKeysWith: { _, latest in latest })
+        temporaryExclusions = temporaryExclusions.reduce(into: [:]) { result, entry in
+            if let names = current[entry.key] {
+                let remaining = entry.value.intersection(names)
+                if !remaining.isEmpty { result[entry.key] = remaining }
+            }
         }
     }
 
@@ -75,10 +166,10 @@ struct SavedMeals: Codable {
         else { next.append(list) }
         return commit(lists: next, history: history)
     }
-    func delete(_ list: FoodList) { _ = commit(lists: lists.filter { $0.id != list.id }, history: history) }
-    func record(food: String, list: FoodList) {
+    @discardableResult func delete(_ list: FoodList) -> Bool { commit(lists: lists.filter { $0.id != list.id }, history: history) }
+    @discardableResult func record(food: String, list: FoodList) -> Bool {
         let entry = MealDecision(listName: list.name, food: food, date: .now)
-        _ = commit(lists: lists, history: Array(([entry] + history).prefix(100)))
+        return commit(lists: lists, history: Array(([entry] + history).prefix(100)))
     }
     func participatingItems(in list: FoodList) -> [String] {
         let excluded = temporaryExclusions[list.id] ?? []
@@ -94,7 +185,7 @@ struct SavedMeals: Codable {
         temporaryExclusions[list.id] = excluded.isEmpty ? nil : excluded
     }
     func includeAll(in list: FoodList) { temporaryExclusions[list.id] = nil }
-    func clearHistory() { _ = commit(lists: lists, history: []) }
+    @discardableResult func clearHistory() -> Bool { commit(lists: lists, history: []) }
 }
 
 // The fixed pointer is at twelve o'clock. Segment zero begins there.

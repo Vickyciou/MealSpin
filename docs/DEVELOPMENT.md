@@ -2,7 +2,7 @@
 
 本文件提供開發環境、建置、測試與畫面素材的操作方式。產品範圍、狀態及檔案契約分別見對應文件。
 
-尚未實作的審查改善項目與驗收順序見 [iOS 程式碼審查改善計畫](ios-improvement-plan.md)。
+審查改善項目與尚待完成的驗收見 [iOS 程式碼審查改善計畫](ios-improvement-plan.md)。
 
 [專案總覽](overview.md) · [架構](architecture.md) · [模組責任](modules.md) · [手機安裝](INSTALL.md)
 
@@ -50,7 +50,7 @@ xcrun swiftc -parse-as-library MealSpin/Models.swift Tests/ModelChecks.swift -o 
 
 - 1–100 個選項、共 5,050 組指針位置。
 - 預設清單建立、儲存／修改／刪除／重讀與紀錄清除。
-- 儲存失敗後的狀態，以及讀取損壞資料時保留原始檔案。
+- 儲存失敗後的狀態、損壞資料下每個寫入入口保留原始 bytes、重新讀取、備份內容與重建失敗保護。
 - 分享格式往返、新 UUID 與獨立副本、隱私欄位、格式／版本／大小／長度驗證、圖示備援及空清單。
 - 暫時排除、跨清單保留、重新啟動／全部參與恢復、分享完整清單與編輯／刪除後的設定整理。
 
@@ -71,10 +71,29 @@ xcodebuild -project MealSpin.xcodeproj -scheme MealSpin \
 | `testImportPreviewCancelAndSave` | 外部檔案開啟、預覽／取消、儲存與同名副本 |
 | `testSharingPresentsSystemSheet` | 檔案分享與系統面板的儲存／拷貝動作 |
 | `testTemporaryParticipation` | 暫停、過濾後抽選、切換清單保留、全部暫停、恢復與重新啟動 |
+| `testRecoveryRebuildRetainsExportAfterRelaunch` | 損壞資料、備份、放棄重建、確認重建及重開後副本匯出入口 |
 
-`--ui-testing` 讓 App 使用獨立的 `Documents/ui-tests.json`；加上 `--reset-test-data` 會在啟動時刪除該測試檔案。選取清單仍使用一般的 `selectedFoodList` 偏好設定，因此這兩個參數不是完整的偏好重設；正式資料檔案與狀態契約見 [架構文件](architecture.md#狀態與儲存)。
+`--ui-testing` 使用獨立的 `Documents/ui-tests.json` 與 `Documents/UITest Recovery` 副本目錄。`--reset-test-data` 刪除這兩處測試資料並清除 `selectedFoodList` 偏好，不刪除正式資料或正式回復副本。正式資料契約見 [架構文件](architecture.md#狀態與儲存)。
+
+以下附加參數只在 `--ui-testing` 下生效：
+
+- `--corrupt-test-data` 在測試檔案寫入無效資料，進入回復流程。
 
 外部檔案測試會將後續啟動參數改為只含 `--ui-testing`，避免開啟文件時再次清除已建立的測試資料。
+
+## 核對文字擷取與輔助使用
+
+建置設定啟用 `SWIFT_EMIT_LOC_STRINGS`，`Localizable.xcstrings` 納入 App Resources。先以固定的 DerivedData 位置建置，再同步 App target 的擷取結果。以下陣列語法適用於 macOS 預設的 zsh：
+
+```sh
+xcodebuild -project MealSpin.xcodeproj -scheme MealSpin \
+  -destination 'generic/platform=iOS Simulator' \
+  -derivedDataPath /tmp/mealspin-localization CODE_SIGNING_ALLOWED=NO build
+app_stringsdata=(/tmp/mealspin-localization/Build/Intermediates.noindex/MealSpin.build/Debug-iphonesimulator/MealSpin.build/Objects-normal/*/*.stringsdata)
+xcrun xcstringstool sync MealSpin/Localizable.xcstrings --stringsdata "${app_stringsdata[@]}"
+```
+
+同步後核對繁體中文資源，再執行相同建置命令確認 Catalog 可編譯。不要傳入 UI 測試 target 的擷取結果，也不要將清單名稱、食物與歷史快照當成翻譯文案。
 
 ## 截圖素材
 
